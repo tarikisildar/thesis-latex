@@ -58,7 +58,7 @@ intervention through teleoperation. This technology is essential for ensuring th
 can operate reliably in real-world conditions and is expected to play a key role in the widespread adoption of autonomous vehicles.
 
 
-\subsection{Types of Sensor Data in Autonomous Vehicles}
+\subsection{Types of Sensor Data in Autonomous Vehicles} \label{subsection:sensors}
 Autonomous vehicles rely on a range of sensors to perceive their environment and
 gather the necessary data for safe and efficient navigation. These sensors provide
 raw data that is processed by the vehicle's perception system to understand its
@@ -114,12 +114,171 @@ We utilize Autoware, an open-source software stack designed for autonomous drivi
 Autoware also supports sensor fusion techniques that combine data from multiple sensors to improve accuracy and reliability. This is especially important when dealing with noisy or incomplete sensor data. For instance, Autoware's fusion algorithms can combine LiDAR point clouds with radar measurements to enhance object detection
 performance in adverse weather conditions where cameras may struggle.
 \section{Teleoperation Concepts}
+
+Teleoperation is an essential fallback solution for autonomous vehicles (AVs),
+enabling a human operator to remotely assist or take control of a vehicle when
+its automated systems encounter situations beyond their operational design domain (ODD)
+or face disengagements. These scenarios often arise due to complex or unforeseen edge cases,
+such as sensor malfunctions, unanticipated obstacles, or ambiguous road conditions.
+ensuring that it can resume its mission safely and efficiently \cite{Brecht}.
+
+Several teleoperation concepts have been developed to address different aspects of remote vehicle control, each with its own strengths and limitations. These concepts can be broadly categorized into Remote Driving, Remote Assistance, and Perception Modification. Each approach targets specific challenges in teleoperation, such as latency, situational awareness, and operator workload.
+
 \subsection{Remote Driving}
+Remote Driving is one of the earliest teleoperation concepts,
+where a human operator takes full control of the vehicle's
+dynamic driving tasks (DDT), including steering, acceleration,
+and braking. This concept has been explored for more than two decades.
+Early research by Sworder et al. \cite{sworder1999performance} (1999) demonstrated the feasibility
+of teleoperating vehicles using direct control methods, where
+operators manually control vehicles based on live video feeds and
+sensor data transmitted from the vehicle to a remote station.
+This method, known as Direct Control, has been widely studied
+and implemented in various industries since then.
+
+Despite its long history, Direct Control remains relevant
+today due to its simplicity and directness. In this approach,
+the operator receives real-time video and sensor data from the
+vehicle and sends back control commands such as steering angles
+or velocity adjustments. However, this method is highly sensitive
+to network conditions—particularly latency and bandwidth
+limitations—which can lead to reduced situational awareness for
+the operator and delayed reactions to dynamic situations \cite{Gnatzig}.
+Latency is a critical factor in teleoperation; studies have shown
+that latencies greater than 100 milliseconds can result in degraded
+performance in high-speed or complex environments \cite{chucholowski2014teleoperated}.
+Under fluctuating network conditions—such as handovers
+between cellular towers or signal degradation due to obstacles—latency
+can increase unpredictably, leading to delayed responses that
+compromise safety \cite{neumeier2023feasibility}.
+
+In recent years, several companies have implemented Direct Control
+in real-world applications despite these challenges. For example,
+Fernride, a Munich-based company, has successfully deployed
+teleoperation technology for logistics operations. Fernride's
+platform allows remote operators to control semi-autonomous
+trucks in logistics yards using Direct Control methods.
+In their pilot project with DB Schenker and KAMAG,
+teleoperators remotely controlled trucks for yard shunting
+tasks—moving trailers around loading docks—demonstrating that
+teleoperation can be safely integrated into existing logistics
+processes \cite{fernride2023}. The success of this project
+highlights the potential of Direct Control in controlled
+environments like logistics yards where network conditions are stable.
+
+However, while Direct Control has proven effective in specific use cases
+such as logistics yards or industrial environments with
+controlled network conditions, it faces significant challenges when
+applied to more complex or dynamic environments like urban roads.
+The sensitivity of Direct Control to network latency makes it less
+suitable for scenarios where real-time decision-making is critical for
+safety. To mitigate these challenges, modern teleoperation systems
+often incorporate additional safety measures or alternative methods
+that reduce reliance on real-time control inputs.
+
+One such alternative is Shared Control, where the vehicle retains
+some level of autonomy while the operator provides high-level
+inputs. In this approach, if an operator's input does not meet
+certain safety criteria—such as proximity to other vehicles—the
+vehicle's onboard systems can override those commands to prevent
+collisions \cite{kay2024sharedcontrol}. This approach reduces
+cognitive load on the operator while ensuring that safety-critical
+decisions are still handled by the vehicle's autonomous systems.
+
 \subsection{Remote Assistance}
+Remote Assistance focuses on providing high-level guidance or support
+to specific functions of the AV without taking full control of the DDT.
+This method is often used in scenarios where the AV encounters an
+edge case that prevents it from continuing its mission autonomously
+but does not require complete human intervention.
+
+In Waypoint Guidance, for example, operators provide waypoints or general
+directions for the vehicle to follow while leaving detailed path planning
+and execution to the AV's onboard systems \cite{corridor}. This reduces
+operator workload but may lead to stop-and-go behavior if communication
+between the operator and vehicle is not seamless.
+
+Another promising approach is Collaborative Planning, where operators
+work with the AV's planning system by selecting from a set of pre-generated
+path suggestions based on sensor data. This method allows operators to focus
+on decision-making rather than low-level control tasks \cite{hosseini2024collaborative}.
+Collaborative planning improves efficiency but requires robust sensor fusion and reliable
+perception data from the AV.
 \subsection{Perception Modification}
 
+Perception Modification is one of the most promising teleoperation
+concepts, designed to address situations where an autonomous
+vehicle (AV) encounters perception errors that prevent it
+from continuing its mission. These errors may arise from false
+positives or misclassifications in the vehicle's perception system,
+such as detecting an object that is not truly obstructing the path or
+misinterpreting environmental features like lane markings or road signs.
+In such cases, Perception Modification allows a remote operator to
+intervene by modifying how the AV interprets its environment,
+enabling it to resume its journey \cite{feiler2023perception}.
+
+In this concept, the operator has access to both raw sensor data
+(e.g., LiDAR point clouds or camera images) and processed perception
+data (e.g., object classifications or environmental models).
+By reviewing this data, operators can identify discrepancies
+between what the vehicle perceives and what is present in its
+surroundings. For example, if a false-positive detection is blocking
+the vehicle's path—such as a plastic bag being detected as a solid
+obstacle—the operator can modify or correct these perceptions by
+marking the area as drivable. This correction enables the AV to
+continue its mission without requiring complete manual control \cite{feiler2023perception}.
+
+The Perception Modification concept is beneficial because
+it reduces the cognitive load on the operator compared to direct control methods.
+Instead of managing all aspects of driving, operators focus solely on correcting
+specific perception errors. This approach allows for more efficient human
+intervention while minimizing the risk of operator fatigue or error due to
+high mental workload \cite{Brecht}. Additionally, Perception Modification can
+be extended beyond object detection corrections; operators could also modify other
+aspects of the environmental model, such as lane boundaries or drivable space predictions.
+
+As Feiler, et al. \cite{feiler2023perception} define it, the implementation of
+Perception Modification involves integrating a  Human-Machine Interface (HMI) that provides operators with real-time access to both raw sensor data and processed perception data. The HMI allows operators to
+mark areas as drivable or ignore specific detections deemed irrelevant or incorrect. The vehicle's planning module receives this modified perception data and generates a new trajectory based on these corrections.
+
+In their comparative study of teleoperation concepts, Brecht et al. \cite{Brecht} found
+that Perception Modification imposes less cognitive load on operators than
+Direct Control while still enabling efficient resolution of disengagements.
+The study also highlighted that Perception Modification is highly effective in
+situations where false-positive detections or indeterminate objects hinder an AV's progress.
+However, it may not be suitable for all disengagement scenarios—particularly those
+involving complex trajectory planning failures or situations requiring immediate manual intervention.
+
 \section{Environmental Data Visualization for Autonomous Vehicles}
+Environmental data visualization plays a fundamental role in autonomous vehicle systems,
+particularly in teleoperation scenarios where human operators must understand and interpret
+complex sensor data to make critical decisions. Visualizing environmental data is crucial
+for two reasons: First, it enables operators to maintain high situational awareness during
+teleoperation tasks \cite{Gnatzig}. Second, it allows for effective monitoring and verification
+of the vehicle's perception system, essential for identifying and correcting potential errors
+in the automated driving system \cite{feiler2023perception}.
+
 \subsection{Challenges in Visualizing Multi-Sensor Data}
+One of the primary challenges in environmental data visualization is integrating data from multiple
+sensors into a cohesive representation of the environment. Modern autonomous vehicles generate
+massive amounts of data - up to 3-6 TB of raw data per hour of operation from their sensor suite \cite{kazhamiaka2021challenges}
+. A single 4K camera operating at 30 frames per second can produce
+approximately 5.4 TB per hour, while a typical AV may have 6-12 cameras along with other sensors \cite{visualcapitalist2024}
+. This creates a significant challenge in data processing, transmission,
+and visualization. Each sensor type has strengths and limitations, as we defined in section \ref{subsection:sensors}.
+
+The sensor fusion process combines these different data streams into a single, a unified environmental
+model that is used by nearly all parts of the autonomous driving stack like perception system \cite{feng2020deep}
+, localization system \cite{feng2020deep, el-sheimy2020sensorfusion}. It can also be used for the human operator interface.
+However, visualizing this fused data presents several challenges:
+\begin{itemize}
+    \item \textbf{Data Overload:} Presenting all sensor data simultaneously can overwhelm operators with too much information. With autonomous vehicles generating up to 10 exabytes of monthly data across a fleet, effective visualization techniques must prioritize relevant information while filtering out unnecessary details \cite{visualcapitalist2024}. % todo: revisit
+    \item \textbf{Real-Time Processing:} Processing and visualizing sensor data in real time requires significant computational resources. Delays in processing can lead to outdated information being presented to the operator, reducing situational awareness \cite{Gnatzig}.
+    \item \textbf{Accuracy vs. Latency:} High-fidelity visualizations may improve accuracy but come at the cost of increased latency. A balance between these two factors must be kept for effective teleoperation \cite{chucholowski2014teleoperated}.
+\end{itemize}
+
+Data overload is particularly sensitive in teleoperation scenarios, where operators must quickly understand and respond to complex environmental data while maintaining real-time awareness of the vehicle's situation. This requires careful consideration of which data to present and how to present it effectively without overwhelming the operator's cognitive capabilities.
+
 \subsection{Human Factors in Perception Data Visualization}
 
 \section{Existing Approaches to Visualizing Sensor Data}
