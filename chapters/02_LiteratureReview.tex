@@ -34,7 +34,8 @@ Level 4 autonomy in pilot areas, offering fully autonomous rides without safety
 \begin{figure}[h]
     \includegraphics[scale=0.14]{figures/AVStack.png}
     \centering
-    \caption{Autonomous Vehicle Technology Stack} %todo: add source from the lecture
+    \caption{Autonomous Vehicle Technology Stack
+    from the lecture slides of "Software Engineering For Autonomous Driving" course, TUM, 2024} %todo: add source from the lecture
     \label{fig:AVStack}
 \end{figure}
 
@@ -279,7 +280,7 @@ However, visualizing this fused data presents several challenges:
 
 Data overload is particularly sensitive in teleoperation scenarios, where operators must quickly understand and respond to complex environmental data while maintaining real-time awareness of the vehicle's situation. This requires careful consideration of which data to present and how to present it effectively without overwhelming the operator's cognitive capabilities.
 
-\subsection{Human Factors in Perception Data Visualization}
+\subsection{Human Factors in Perception Data Visualization}\label{subsection:humanfactors}
 We consider two critical elements in teleoperation in the aspect of human factors: situational awareness and mental workload. These factors significantly influence an operator's ability to effectively control and monitor remote vehicles.
 
 \textbf{Situational Awareness:} In teleoperation scenarios, achieving and maintaining situational awareness presents unique challenges due to the physical separation between the operator and the vehicle. Gnatzig et al. \cite{Gnatzig} shows that operators must rely entirely on sensor data and interface representations to understand the remote environment, making the quality and presentation of this information critical for effective operation.  As Endsley \cite{endsley1995toward} states, "Even the
@@ -339,9 +340,9 @@ The software stack on which we are building our interfaces is based on TOD Visua
 \end{itemize}
 
 \begin{figure}
-    \includegraphics[width=0.8\textwidth]{figures/todvisual.png}
+    \includegraphics[width=0.8\textwidth]{figures/tod_visual.png}
     \centering
-    \caption{TOD Visual 2.0 Interface}
+    \caption{TOD Visual 2.0 Interface from Wiesn' Shuttle Event}
     \label{fig:TODVisual}
 \end{figure}
 
@@ -436,31 +437,127 @@ These characteristics make NeRF-based methods a promising but challenging candid
 
 \subsection{Depth Completion}
 
-Depth completion addresses converting sparse and irregular depth data into dense, regular depth information. This process is particularly relevant for autonomous vehicles, where LiDAR sensors provide accurate but sparse 3D measurements. Having complete depth information enables precise scene reconstruction, as the dense depth map allows for accurate projection of camera images onto the 3D space, creating a comprehensive view of the environment\cite{tang2023comprehensive}.
+Depth completion addresses converting sparse and irregular depth data into dense, regular depth information. This process is particularly relevant for autonomous vehicles, where LiDAR sensors provide accurate but sparse 3D measurements. Having complete depth information enables precise scene reconstruction, as the dense depth map allows for accurate projection of camera images onto the 3D space, creating a comprehensive view of the environment \cite{tang2023comprehensive}.
 
-The KITTI depth completion benchmark has become the standard evaluation platform for these methods\cite{uhrig2017sparsity}, providing a dataset of over 93,000 depth maps with corresponding raw LiDAR scans and RGB images. The benchmark evaluates methods using metrics such as iRMSE (inverse root mean square error) and iMAE (inverse mean absolute error) to assess performance against ground truth data.
+The KITTI depth completion benchmark has become the standard evaluation platform for these methods \cite{uhrig2017sparsity}, providing a dataset of over 93,000 depth maps with corresponding raw LiDAR scans and RGB images. The benchmark evaluates methods using metrics such as iRMSE (inverse root mean square error) and iMAE (inverse mean absolute error) to assess performance against ground truth data.
 
-Recent advances in depth completion have explored various learning approaches. Supervised methods like GuideNet have demonstrated superior performance by effectively fusing image features at different encoder stages with sparse depth features\cite{tang2023guidenet}. The Convolutional Spatial Propagation Network (CSPN) achieves high accuracy with relatively fast runtime, making it suitable for real-time applications\cite{cheng2020cspn}. These supervised approaches, however, heavily rely on ground truth data, which can be costly and challenging to obtain in practical applications.
+Recent advances in depth completion have explored various learning approaches. Supervised methods like GuideNet have demonstrated superior performance by effectively fusing image features at different encoder stages with sparse depth features \cite{tang2023guidenet}. The Convolutional Spatial Propagation Network (CSPN) achieves high accuracy with relatively fast runtime, making it suitable for real-time applications \cite{cheng2020cspn}. These supervised approaches, however, heavily rely on ground truth data, which can be costly and challenging to obtain in practical applications.
 
-Self-supervised and unsupervised methods have emerged as promising alternatives that eliminate the dependence on ground truth data. Wong et al. introduced a self-supervised approach that leverages visual inertial odometry to complete depth maps without explicit supervision\cite{wong2020unsupervised}. Recent work by Li et al. explores using 3D perceptual features and multi-view geometry consistency to achieve high-precision depth completion without ground truth data\cite{li2023self}. However, the accuracy remains slightly inferior to supervised methods.
+Self-supervised and unsupervised methods have emerged as promising alternatives that eliminate the dependence on ground truth data. Wong et al. introduced a self-supervised approach that leverages visual inertial odometry to complete depth maps without explicit supervision \cite{wong2020unsupervised}. Recent work by Li et al. explores using 3D perceptual features and multi-view geometry consistency to achieve high-precision depth completion without ground truth data\cite{li2023self}. However, the accuracy remains slightly inferior to supervised methods.
 
 Several factors warrant consideration when considering depth completion for our Integrated View approach. The method provides accurate dense depth information and enables precise 3D scene reconstruction while being computationally more efficient than NeRF-based methods. Some implementations achieve real-time performance, making them suitable for teleoperation applications. However, the approach faces challenges such as dependence on LiDAR sparsity patterns and potential struggles in areas with high occlusion. Additionally, the method requires careful sensor calibration and synchronization to ensure accurate fusion of LiDAR and camera data.
 
 These characteristics make depth completion a promising approach for real-time teleoperation interfaces, mainly when computational efficiency is a priority. Generating dense, accurate depth maps in real time provides a solid foundation for creating comprehensive environmental visualizations for teleoperators.
 
 \section{User Experience and Interface Design for Autonomous Vehicles}
+The design of effective user interfaces for autonomous vehicles represents a critical challenge in the development of safe and reliable autonomous systems. As vehicles become increasingly automated, the interaction between humans and autonomous systems becomes more complex, particularly in scenarios requiring human intervention \cite{Kettwich}. While the ultimate goal of autonomous vehicles is to minimize human involvement, research has shown that human operators will still be required for handling edge cases and complex scenarios that exceed the vehicle's autonomous capabilities\cite{mutzenich2021updating}.
 \subsection{Human-Machine Interaction in Autonomous Vehicles}
+Human-Machine Interaction (HMI) in autonomous vehicles focuses on creating interfaces that facilitate effective communication between the operator and the vehicle's systems. The primary goal is to ensure safe operation while maintaining an accessible user experience. This is particularly challenging in teleoperation scenarios, where operators must process complex information from multiple sources while maintaining high levels of situational awareness\cite{Georg}.
+Modern HMI systems incorporate multiple interaction modalities to enhance operator performance and safety. Visual interfaces through graphical user interfaces (GUIs) serve as the primary information channel, while additional modalities such as auditory and haptic feedback provide complementary information \cite{kallioniemi2021enhancing}. This multi-modal approach helps distribute cognitive load across different sensory channels, potentially improving operator performance and reducing mental workload.
 \subsection{User-Centered Design Principles for Vehicle Interfaces}
-\subsection{Cognitive Load and Information Processing in Driving Scenarios}
-\subsection{Situational Awareness in Teleoperation}
+User-centered design principles highlight understanding user needs, expectations, and limitations while ensuring safety and performance. Following the EN ISO 9241-110 process, interface design consists of four key steps: understanding the context of use, specifying usage requirements, developing design solutions, and evaluating these solutions \cite{Georg}.
 
-\section{Evaluation Methods for Visualization Concepts}
-\subsection{Usability Testing Techniques}
-\subsection{Performance Metrics for Visualization Effectiveness}
-\subsection{User Studies in Automotive Interface Design}
+Kettwich et al. established seven critical requirements for teleoperation interfaces \cite{Kettwich}:
+\begin{itemize}
+    \item Features: The interface must provide necessary features to monitor automation, provide disturbance information, and support operators in resolving issues
+    \item Information: The system must present necessary information effectively
+    \item Situational Awareness: The interface must maintain high operator situational awareness
+    \item Usability: The system must demonstrate good usability
+    \item User Acceptance: The interface must achieve high user acceptance
+    \item Attention: The system must effectively direct user attention to relevant information
+    \item Capacity: The interface must not overwhelm the operator's mental and physical capacities
+
+\end{itemize}
+Within the scope of this thesis, we focus specifically on situational awareness, capacity (examined through cognitive load), and the combined aspects of features and information presentation on quantifiable aspects. While the remaining requirements (usability, user acceptance, and attention) are crucial for teleoperation interfaces, they fall outside the scope of our analysis.
+
+Additionally, Georg et al. emphasize system-level requirements that are crucial for practical implementation \cite{Georg}:
+\begin{itemize}
+    \item Scalability: The system should be cost-effective and be able to efficiently handle multiple vehicles
+    \item Adaptability: The interface should accommodate different vehicles and scenarios
+    \item Data Management: Only necessary sensor data should be transmitted to minimize bandwidth usage
+    \item Multi-modal Support: The system should support both conventional displays and head-mounted displays
+\end{itemize}
+These requirements were also considered throughout the development phase and are discussed in the later sections.
+
+After the requirements phase, user-centered design process involves:
+
+\paragraph{Design Solution Development:} Creating interfaces that meet the specified requirements through iterative prototyping and refinement. This includes implementing visualization methods that effectively combine sensor data and perception outputs.
+This aspect of the process is discussed within chapter \ref{chapter:methodology}.
+\paragraph{Evaluation:} Testing the design solutions against the requirements through user studies and expert evaluations. This involves measuring situational awareness, cognitive load, and task performance using standardized metrics and assessment tools. And This part of the process is introduced in section \ref{section:evaluationmethods} and analyzed in more detail in chapter \ref{chapter:userstudy}.
+
+This systematic approach ensures that the resulting interface design meets technical requirements and effectively supports operator needs and capabilities in teleoperation scenarios.
+
+
+\section{Evaluation Methods}\label{section:evaluationmethods}
+The evaluation of teleoperation interfaces requires a systematic approach to measure operator performance, situational awareness, and cognitive load. This section discusses various evaluation methods, focusing on situational awareness, cognitive load and interface performance evaluations.
+\subsection{Situational Awareness in Teleoperation}
+As discussed in Section \ref{subsection:humanfactors}, situational awareness (SA) is critical in teleoperation scenarios, mainly due to the physical separation between the operator and the vehicle. Operators rely entirely on sensor data and interface representations to understand the remote environment, making the quality and presentation of this information crucial for effective operation \cite{Gnatzig}. As Endsley explains, "Even the best-trained decision makers will make the wrong decisions if they have inaccurate or incomplete SA" \cite{endsley1995toward}.
+
+Two prominent methods are commonly used to evaluate situational awareness in teleoperation tasks: the Situation Awareness Global Assessment Technique (SAGAT) and the Situation Awareness Rating Technique (SART). SAGAT, developed by Endsley \cite{endsley1988sagat}, is an objective measure that involves freezing a simulation at random intervals and querying operators about their perception and understanding of the situation. During these pauses, displays are blanked, and operators are asked specific questions about elements in the environment, such as object locations or potential risks \cite{endsley2000direct}. This method allows for detailed assessment across all three levels of situational awareness: perception (Level 1), comprehension (Level 2), and projection (Level 3).
+
+In contrast, SART is a subjective post-trial rating technique where operators self-assess their situational awareness based on factors like attention demand, attentional supply, and understanding \cite{taylor1990sart}. While SART provides insights into operators' confidence levels, it has been criticized for measuring operator's confidence in the situational awareness they perceive rather than measuring the actual situational awareness \cite{endsley2020review}. This distinction is crucial in teleoperation tasks where overconfidence can lead to errors.
+
+For this thesis, we adopt SAGAT as our primary evaluation method for situational awareness. SAGAT offers several advantages over SART:
+\begin{itemize}
+    \item It provides objective measurements of all three levels of situational awareness.
+    \item It has been shown to be more sensitive to experimental differences than post-trial questionnaires \cite{endsley2000direct}.
+    \item It allows for detailed analysis of specific elements relevant to perception modification tasks.
+\end{itemize}
+By using SAGAT, we aim to understand how different visualization approaches impact operator situational awareness during teleoperation.
+
+\subsection{Cognitive Load and Information Processing}
+Cognitive load is critical in teleoperation, as operators must process large amounts of information from multiple sources while making timely decisions. High cognitive load can impair performance, leading to slower reaction times, reduced situational awareness, and increased error rates \cite{Kettwich}. Conversely, underloading the operator can reduce vigilance and engagement, which may also negatively affect task performance \cite{mutzenich2021updating}. Therefore, designing interfaces that balance cognitive demands is crucial for effective teleoperation.
+
+The NASA Task Load Index (NASA-TLX) is one of the most widely used tools for evaluating cognitive load in teleoperation scenarios. NASA-TLX is a subjective workload assessment tool that measures an operator's perceived workload across six dimensions: mental demand, physical demand, temporal demand, performance, effort, and frustration \cite{hart1988development}. These dimensions provide a comprehensive understanding of the cognitive demands placed on operators during teleoperation tasks.
+
+Compared to alternative methods for measuring cognitive load, NASA-TLX offers several advantages. Physiological measures such as heart rate variability (HRV) or pupil dilation provide objective data but require specialized equipment and are sensitive to external factors like stress or fatigue \cite{wickens2008multiple}. Secondary task performance methods involve measuring performance on a secondary task while completing the primary task, offering indirect insights into cognitive load but potentially interfering with the primary task. In contrast, NASA-TLX is simple to administer and captures multiple workload dimensions without requiring additional hardware or introducing interference.
+
+While NASA-TLX has traditionally been used in its full form with weighted scores for each dimension, simplified versions have been developed to reduce the time required for administration and analysis \cite{hart2006nasa}. For this thesis, we adopt the simplified, unweighted version of NASA-TLX to streamline its integration into our user studies while retaining its ability to capture critical aspects of cognitive workload. This approach aligns with the practical constraints of teleoperation scenarios and ensures minimal disruption to operator tasks during evaluations.
+
+Using NASA-TLX as our primary tool for assessing cognitive load, we aim to gain valuable insights into how different visualization approaches impact operator mental workload in perception modification tasks.
+\subsection{Feature and Information Evaluation}
+In evaluating the features and information presentation of teleoperation interfaces, we adopt a subjective approach that involves gathering insights from users with expertise in autonomous driving. This approach ensures that the evaluation is grounded in practical experience and industry knowledge, providing valuable feedback on the completeness and effectiveness of the interface features.
+
+Kettwich et al. demonstrated the value of expert evaluations in their study of teleoperation interfaces for highly automated shuttles, where control center professionals assessed the interface's usability, situational awareness, and feature completeness \cite{Kettwich}. Similarly, Georg et al. emphasize that domain experts are crucial for evaluating teleoperation systems to ensure that the design meets real-world operational needs \cite{Georg}.
+
+Key performance indicators (KPIs) for evaluating teleoperation interfaces include feature completeness, information accessibility, and system responsiveness \cite{Brecht}. These KPIs help ensure that the interface provides all necessary features for effective teleoperation, including monitoring automation, providing disturbance information, and supporting operators in resolving issues.
 
 \section{Summary}
+The literature review has explored various aspects of teleoperation interfaces for autonomous vehicles, from fundamental concepts to specific visualization approaches. This comprehensive analysis reveals the critical role of effective human-machine interfaces in ensuring safe and efficient teleoperation, particularly for perception modification tasks.
 \subsection{Requirements}
+Based on the literature review, we can define several critical requirements for our visualization interface:
+\paragraph{Situational Awareness Requirements:}
+\begin{itemize}
+    \item The interface must provide comprehensive environmental perception data to enable operators to develop and maintain high situational awareness
+    \item Visualization methods must effectively combine multiple sensor data streams into a coherent representation
+\end{itemize}
+\paragraph{Cognitive Load Requirements:}
+\begin{itemize}
+    \item The interface must balance information presentation to avoid overwhelming operators
+    \item Visualization approaches should minimize the mental effort required for integrating different data sources
+\end{itemize}
+\paragraph{Feature and Information Requirements:}
+\begin{itemize}
+    \item The interface must provide the necessary features for monitoring automation and perception of data
+    \item Visualization methods must effectively present both raw sensor data and processed perception outputs
+    \item The system should support perception modification tasks through intuitive interaction methods
+\end{itemize}
+\paragraph{Technical Requirements:}
+\begin{itemize}
+    \item Real-time visualization performance to support immediate operator response
+    \item Efficient data transmission to work within network bandwidth constraints
+    \item Robust handling of various environmental conditions and sensor configurations
+\end{itemize}
+
+These requirements will guide the development and evaluation of our visualization approaches, ensuring that the resulting interface effectively supports teleoperation tasks while maintaining high usability and performance standards.
 \subsection{Research Gap}
+
+While teleoperation has been extensively studied as a fallback solution for autonomous vehicles, limited research focuses explicitly on perception modification interfaces and their effectiveness in real-world scenarios \cite{Georg}. Existing studies have primarily concentrated on direct control or remote assistance concepts, leaving a significant gap in understanding how different visualization approaches affect operator performance in perception modification tasks.
+
+Current research lacks comprehensive user studies comparing different visualization methods for perception data presentation. Although some studies have evaluated individual aspects of teleoperation interfaces \cite{Kettwich}, there is insufficient evidence to determine which visualization approaches are most effective for perception modification tasks. This gap is particularly notable in the context of integrating multiple data streams (2D camera feeds, 3D LiDAR data, and perception outputs) into a unified display.
+
+This thesis addresses these gaps through two main research objectives. First, we aim to develop and evaluate an ideal implementation of our "Integrated View" approach, which combines raw sensor data and perception outputs in a unified visualization. This involves investigating how different visualization techniques affect operator situational awareness and cognitive load. Second, we assess how closely our current implementation approaches this ideal, identifying technical limitations and areas for improvement.
+
+Through user studies and performance evaluations, we seek to provide empirical evidence for the effectiveness of different visualization approaches in perception modification tasks. The findings will contribute to the understanding of teleoperation interface design and lay the groundwork for future research in this field, particularly in developing more advanced visualization methods and improving operator performance in perception modification tasks.
 
 
