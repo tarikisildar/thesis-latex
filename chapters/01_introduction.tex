@@ -3,27 +3,27 @@
 
 \chapter{Introduction}\label{chapter:introduction}
 
-Autonomous Driving (AD) has been a topic of intense interest for researchers and
+\ac{AD} has been a topic of intense interest for researchers and
 industry professionals for the past few decades. Despite significant investments and
 efforts that we can see recently in the funding of Waymo \cite{waymo2024funding}, Wayve \cite{wayve2024funding},
 and numerous others, public acceptance remains a challenge. A Forbes Advisor
 survey \cite{forbes2024} conducted in January 2024 revealed that 93\% of the population harbors
 concerns about self-driving cars, with safety and technology malfunctions topping the
-list of worries
-This widespread apprehension underscores the need for robust systems
+list of worries.
+This widespread apprehension underscores the need for robust systems.
 
 In light of these challenges, teleoperation has emerged as a crucial component
-in developing and deploying autonomous vehicles. Teleoperation allows
-human operators to remotely assist or take control of autonomous vehicles when they
+in developing and deploying \acp{AV}. Teleoperation allows
+human operators to remotely assist or take control of \acp{AV} when they
 encounter situations beyond their current capabilities. Research by Kettwich et al. \cite{Kettwich}
-emphasizes the importance of effective Human-Machine Interfaces (HMI) in
+emphasizes the importance of effective \acp{HMI} in
 teleoperation, showing that well-designed interfaces can significantly improve user
 acceptance and usability of autonomous systems.
 
 Among various teleoperation concepts, this thesis focuses specifically on Perception Modification \cite{Feiler2021ThePM},
 ranked as the most effective approach for
-addressing common autonomous vehicle failure cases \cite{Brecht} .The effectiveness of
-teleoperation, especially in Perception Modification, heavily relies on the quality of the HMI used by operators.
+addressing common \ac{AV} failure cases \cite{Brecht} .The effectiveness of
+teleoperation, especially in Perception Modification, heavily relies on the quality of the \ac{HMI} used by operators.
 
 This thesis compares two interface designs for teleoperation: the 'Separate View,'
 which presents 2D camera feeds and 3D perception data on separate displays, and
@@ -32,26 +32,40 @@ the 'Integrated View,' which combines all raw sensor data and perception data in
 
 In a recent study by Prinz et al.\cite{vizualizationUserStudy}, it was demonstrated that utilizing a 2D video stream for teleoperating a robotic arm
 significantly increases the mission completion time due to reduced operator performance. To address this limitation,
-we propose the use of a novel Integrated View interface, that aims to provide operators a more comprehensive understanding of the environment.
-By enhancing situational awareness and improving decision-making capabilities, particularly in complex environments, we believe this approach
-will mitigate the performance loss for the remote teleoperation.
+a novel Integrated View interface is proposed. This interface aims to provide operators a more comprehensive understanding of the environment.
+By enhancing situational awareness and improving decision-making capabilities, particularly in complex environments, it is aimed to mitigate the performance
+loss for the teleoperation.
 
 \section{Objective}
-The primary objective of this thesis is to develop and evaluate an advanced Human-Machine Interface (HMI) for the teleoperation of autonomous vehicles, with a specific focus on enhancing situational awareness for Perception Modification tasks. To achieve this, we aim to Design and implement an "Integrated View" interface that combines all raw sensor data and perception data - what we call "Environmental Data" - in a single window, providing operators with a comprehensive and cohesive view of the vehicle's environment. The main objectives of this thesis can be summarized as follows:
-\begin{itemize}
-    \item Compare the effectiveness of the 'Integrated View' interface, which provides a comprehensive view of the vehicle's environment, against a traditional 'Separate View' interface through a rigorous user study.
-    \item Evaluate the impact of the 'Integrated View' and 'Separate View' interfaces on operator situational awareness is conducted with the scientific rigor of the Situation Awareness Global Assessment Technique (SAGAT) \cite{endsley1988sagat}.
-    \item Assess user acceptance and interface performance through targeted questionnaires and performance metrics.
-    \item Analyze operators' cognitive load and decision-making capabilities when using each interface type.
-\end{itemize}
-Our research will provide evidence-based recommendations for the design of teleoperation interfaces that optimize situational awareness and operational efficiency, ensuring the reliability of our suggestions. Through this research, we aim to contribute significantly to advancing teleoperation technologies in autonomous vehicles, particularly in Perception Modification. The findings from this study, which have the potential to dramatically improve the safety and efficiency of autonomous vehicle systems, will inform future developments in HMI design for remote vehicle operation.
+The primary objective of this thesis is focused on the development and implementation of an "Integrated View" interface for \ac{AV} teleoperation systems, where all environmental perception data is combined into a single visualization. Through this interface, a novel approach to environmental data visualization is introduced, specifically designed to enhance operator situational awareness during Perception Modification tasks.
+
+\textbf{Interface Development} A comprehensive "Integrated View" interface is developed that combines 2D camera feeds and 3D perception data into a unified display, where raw sensor data and perception data are integrated to provide operators with an enhanced understanding of the vehicle's environment.
+
+\textbf{Interface Evaluation} The effectiveness of the developed 'Integrated View' interface is compared against a traditional 'Separate View' interface through a systematic user study, where both interfaces are evaluated under controlled conditions. The evaluation is conducted using the scientific methodology of \ac{SAGAT} to measure situational awareness in teleoperation scenarios.
+
+\textbf{Performance Assessment} User acceptance and interface performance are measured through targeted questionnaires and performance metrics, where empirical data is collected to validate the effectiveness of the interface designs. The assessment is structured to provide quantitative and qualitative insights into operator interaction with both interface types.
+
+\textbf{Cognitive Analysis} Operators' cognitive load and decision-making capabilities are analyzed when interacting with each interface type, where specific attention is paid to mental workload measurements using simplified NASA-TLX methodology. This analysis is conducted to understand how different visualization approaches impact operator performance in Perception Modification tasks.
+
+Through this research, significant contributions are made to the advancement of teleoperation technologies in \ac{AV}, particularly in the domain of Perception Modification. The findings from this study are expected to inform future developments in \ac{HMI} design for remote vehicle operation, where the potential improvements in safety and efficiency of \ac{AV} systems are thoroughly evaluated.
+
 \section{Contribution}
-This thesis makes several critical contributions to the field of teleoperation for autonomous
-vehicles, specifically in the area of Perception Modification:
+This thesis makes several critical contributions to the field of teleoperation for \acp{AV}, specifically in the area of Perception Modification:
 
 \textbf{Novel Interface Design:}
 We introduce the "Integrated View" interface, which combines 2D camera feeds and 3D perception data into a unified display. This innovative approach
-enhances operator situational awareness and decision-making capabilities in complex environments.
+aims to enhance the operator situational awareness and decision-making capabilities in complex environments.
+
+\textbf{Advancement in 3D Reconstruction:}
+We contribute to the field by implementing and evaluating LiDAR and camera fusion techniques for creating realistic 3D reconstructions of the vehicle's surroundings, addressing technical challenges in real-time data presentation.
+
+\textbf{Framework for Future Development:}
+This research establishes a foundation for
+integrating a fully interactable Perception Modification interface. While focusing
+primarily on machine-to-human interaction, our work provides a framework for future
+research to incorporate the human-to-machine aspect of the equation as well. It's
+important to note that this framework is not solely the result of this thesis but rather a collaborative effort of the entire Chair of Automotive Technology at the Technical
+University of Munich \cite{tum_ftm}.
 
 \textbf{Comparative Analysis:}
 We provide a rigorous comparison between the traditional
@@ -60,26 +74,15 @@ insights into the strengths and limitations of each approach in terms of situati
 awareness, cognitive workload, and operator performance.
 
 \textbf{Empirical Evaluation:}
-Through a comprehensive user study utilizing the Situation Awareness Global Assessment Technique (SAGAT)\cite{endsley1988sagat}, we offer empirical evidence on the effectiveness of different interface designs for teleoperation tasks. This evaluation provides
+Through a comprehensive user study utilizing the \ac{SAGAT} \cite{endsley1988sagat}, we offer empirical evidence on the effectiveness of different interface designs for teleoperation tasks. This evaluation provides
 valuable data on user acceptance and interface performance.
-
-\textbf{Framework for Future Development:}
-This research establishes a foundation for
-integrating a fully interactable perception modification interface. While focusing
-primarily on machine-to-human interaction, our work provides a framework for future
-research to incorporate the human-to-machine aspect of the equation as well. It's
-important to note that this framework is not solely the result of this thesis but rather a collaborative effort of the entire Chair of Automotive Technology at the Technical
-University of Munich (TUM FTM).
 
 \textbf{Best Practice Recommendations:}
 Based on our findings, we provide evidence-based recommendations for the design of teleoperation interfaces that optimize situational awareness and operational efficiency in teleoperation tasks.
 
-\textbf{Advancement in 3D Reconstruction:}
-We contribute to the field by implementing and evaluating LiDAR and camera fusion techniques for creating realistic 3D reconstructions of the vehicle's surroundings, addressing technical challenges in real-time data presentation.
-
 \section{Challenges}
 
-In developing an effective teleoperation interface for autonomous vehicles, we encountered several significant challenges that shaped our research approach and design decisions.
+In developing an effective teleoperation interface for \acp{AV}, we encountered several significant challenges that shaped our research approach and design decisions.
 One of the primary obstacles we faced was the constraint imposed by real-world network conditions.
 According to the Opensignal reports \cite{opensignal2020germany}, while LTE coverage in Germany has expanded to cover 85\% of the land as of 2020,
 the minimum throughput can be as low as 3 Mbps, with latencies up to 250 ms. Even though we did our research within the simulation environment,
@@ -97,4 +100,5 @@ Designing an interface that provides sufficient information for effective Percep
 
 Another consideration is the technical difficulty of implementing real-time 3D reconstruction using LiDAR and camera fusion techniques. Achieving computational efficiency and accuracy while maintaining real-time performance requires innovative approaches and careful optimization.
 
-Lastly, ensuring the interface could effectively handle various environmental conditions and potential perception errors requiring operator intervention was crucial for the system's robustness and reliability. This adaptability to multiple scenarios, a key consideration throughout our design process, ensures the system's robustness and reliability in a variety of conditions.
+Lastly, ensuring the interface could effectively handle various environmental conditions and potential perception errors requiring operator intervention was crucial for the system's robustness and reliability. The developed interface must be able to handle different locations, different weather conditions
+inside its \ac{ODD}. This adaptability to multiple scenarios, a key consideration throughout our design process, ensures the system's robustness and reliability in a variety of conditions.
