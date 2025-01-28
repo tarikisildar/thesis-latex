@@ -5,7 +5,7 @@
 The literature review presented in this chapter provides a comprehensive exploration of the key concepts,
 technologies, and challenges in \acp{AV} and teleoperation. This review begins by establishing a
 foundational understanding of \ac{AV} technology, tracing its evolution through the SAE automation levels.
-While most consumer vehicles currently operate at Level 2 automation, industry leaders such as BMW and Waymo
+As of 2024, most consumer vehicles operate at Level 2 automation, industry leaders such as BMW and Waymo
 are pushing the boundaries towards higher levels of autonomy \cite{bmw2024} \cite{evmagazine2024}.
 
 The chapter then delves into the complexities of \ac{AV} architecture, highlighting the sophisticated
@@ -16,12 +16,12 @@ is crucial in enabling safe and efficient vehicle operation.
 
 A significant portion of the review is dedicated to sensor technologies and data processing, which form the backbone of
 environmental perception in \acp{AV} \cite{feng2020deep,el-sheimy2020sensorfusion}. The discussion encompasses
-the diverse array of sensors employed in modern \acp{AV}, including LiDAR for precise 3D mapping, radar for reliable object
+the diverse array of sensors employed in modern \acp{AV}, including \ac{LiDAR} for precise 3D mapping, radar for reliable object
 detection in adverse conditions, and cameras for rich visual information capture. The EDGAR research vehicle at TUM is presented
 as an exemplar of this multi-sensor approach.
 
 The review then transitions to teleoperation concepts, tracing their evolution from early implementations of direct control to more sophisticated
-Remote Assistance approaches \cite{kay2024sharedcontrol,corridor,hosseini2024collaborative,feiler2023perception}. Particular attention is
+Remote Assistance approaches \cite{kay2024sharedcontrol,corridor,hosseini2024collaborative,Feiler2021ThePM}. Particular attention is
 given to Perception Modification as a promising solution for addressing specific \ac{AV} challenges without requiring operators
 to make complete control assumptions \cite{Feiler2021ThePM,Brecht}.
 
@@ -37,9 +37,9 @@ Through this comprehensive review, the chapter establishes the context for the r
 identifying gaps in current approaches and setting the stage for the development and evaluation of an advanced
 \ac{HMI} for the teleoperation of \acp{AV}, with a specific focus on enhancing \ac{SA} for Perception Modification tasks.
 
-\section{Overview of Autonomous Vehicle Technology}
+\section{Overview of \ac{AV} Technology}
 
-The Society of Automotive Engineers (SAE) International has defined six levels of
+The \acp{SAE} International has defined six levels of
 driving automation, as shown in figure 2.1 in their J3016 standard, which has become
 the industry's most widely accepted classification system. These levels range from 0
 (no automation) to 5 (full automation), providing a clear framework for understanding
@@ -77,8 +77,8 @@ drivers in cities like San Francisco, Phoenix, and Austin \cite{evmagazine2024}.
 \begin{figure}[h]
     \includegraphics[scale=0.14]{figures/AVStack.png}
     \centering
-    \caption{Autonomous Vehicle Technology Stack
-    from the lecture slides of "Software Engineering For Autonomous Driving" course, TUM, 2024} %todo: add source from the lecture
+    \caption{\ac{AV} Technology Stack
+    from the lecture slides of "Software Engineering For Autonomous Driving" course, TUM, 2024 \cite{tum2024avstack}} %todo: add source from the lecture
     \label{fig:AVStack}
 \end{figure}
 
@@ -106,8 +106,8 @@ This technology is essential for ensuring that Level 4 and 5 \acp{AV} can operat
 and is expected to play a key role in the widespread adoption of these \acp{AV}.
 
 
-\subsection{Types of Data used in Autonomous Vehicles} \label{subsection:sensors}
-Autonomous vehicles (\acp{AV}) rely on a diverse array of sensors and data sources to perceive their environment and gather the necessary
+\subsection{Types of Data used in \acp{AV}} \label{subsection:sensors}
+\acp{AV} rely on a diverse array of sensors and data sources to perceive their environment and gather the necessary
 information for safe and efficient navigation. These sensors provide raw data that is
 processed by the vehicle's perception system to understand
 its surroundings, detect obstacles, and make real-time
@@ -118,16 +118,16 @@ offline HD maps serve as a critical source of pre-processed environmental inform
 complementing real-time sensor data with detailed static information about road layouts
 and traffic elements \cite{bansal2018hdmaps,zhu2021hdmaps}.
 
-\textbf{LiDAR (Light Detection and Ranging):}
-    LiDAR sensors use laser pulses to measure distances between the vehicle and surrounding objects.
-    By emitting laser beams and measuring the time it takes for them to reflect back, LiDAR creates
+\textbf{\ac{LiDAR}:}
+    \ac{LiDAR} sensors use laser pulses to measure distances between the vehicle and surrounding objects.
+    By emitting laser beams and measuring the time it takes for them to reflect back, \ac{LiDAR} creates
     a detailed 3D map of the environment. This technology is particularly useful for detecting objects'
     shapes, sizes, and positions with high accuracy, even in low-light conditions \cite{levinson2011towards}.
-    LiDAR is widely used in \ac{AV} systems due to its precision in mapping the surrounding area.
+    \ac{LiDAR} is widely used in \ac{AV} systems due to its precision in mapping the surrounding area.
 
 \textbf{Radar}:
     Radar sensors use radio waves to detect objects and measure their speed and distance from the vehicle.
-    Unlike LiDAR, radar is less affected by adverse weather conditions such as rain or fog, making it a
+    Unlike \ac{LiDAR}, radar is less affected by adverse weather conditions such as rain or fog, making it a
     reliable sensor for detecting moving objects like other vehicles or pedestrians \cite{patole2017automotive}.
     Radar is often used for functions like adaptive cruise control and collision avoidance.
 
@@ -142,13 +142,20 @@ and traffic elements \cite{bansal2018hdmaps,zhu2021hdmaps}.
     obstacles at low speeds. These sensors emit sound waves and measure their reflections to detect objects within
     a few meters of the vehicle \cite{zhang2018ultrasonic}.
 
-    \textbf{GPS (Global Positioning System)}:
-    GPS provides location data by triangulating signals from satellites. While GPS alone may not offer the precision
-    required for autonomous driving, it is often combined with other localization methods such as SLAM
-    (Simultaneous Localization and Mapping) to improve accuracy \cite{thrun2005slam}.
+    \textbf{Depth Cameras}:
+    Depth cameras combine RGB imaging with depth sensing capabilities, providing both visual and spatial information about the environment \cite{aivero2024depth}.
+    These sensors typically use dual cameras that enable stereo vision for depth perception, detecting position, distance, and speed of nearby objects \cite{aivero2024depth}.
+    While \ac{LiDAR} remains crucial for \acp{AV}, depth cameras serve as an important complementary sensor, particularly effective at tracking multiple objects in close proximity \cite{argui2023mixed}.
 
-    \textbf{IMU (Inertial Measurement Unit)}:
-    The IMU measures the vehicle's acceleration and angular velocity using accelerometers and gyroscopes.
+    Compared to \ac{LiDAR}, depth cameras offer advantages such as lower cost and better performance in detecting small objects within their sensing range. Modern depth cameras like the FRAMOS D455e use active IR stereo technology with global shutter sensors, enabling accurate depth perception even with fast-moving objects \cite{framos2024d455e}. However, their effective range is typically limited to 0.6 to 6 meters, making them most suitable for near-field perception in \acp{AV}.
+
+    \textbf{\ac{GPS}}:
+    \ac{GPS} provides location data by triangulating signals from satellites. While GPS alone may not offer the precision
+    required for autonomous driving, it is often combined with other localization methods such as \ac{SLAM}
+    to improve accuracy \cite{thrun2005slam}.
+
+    \textbf{\ac{IMU}}:
+    The \ac{IMU} measures the vehicle's acceleration and angular velocity using accelerometers and gyroscopes.
     This data helps track the vehicle's movement and orientation in real time, contributing to accurate
     localization when combined with GPS data \cite{madgwick2011imu}.
 
@@ -156,23 +163,23 @@ and traffic elements \cite{bansal2018hdmaps,zhu2021hdmaps}.
     Offline HD maps provide detailed information about road layouts, traffic signs, lane markings, and other static features of the driving environment. These maps enhance \ac{SA} by offering context beyond what onboard sensors can perceive in real time. HD maps are particularly useful for improving localization accuracy when combined with GPS and IMU data \cite{bansal2018hdmaps}. They also assist in path planning by providing precise information about road geometry, which is critical for autonomous navigation \cite{zhu2021hdmaps}.
 
 We referenced a subset of TUM's EDGAR research vehicle's sensor setup as our basis.
-EDGAR is equipped with 10 camera sensors, 4 LIDAR sensors (long and short-range), 6 RADAR sensors as well as GPS, IMU (Inertial Measurement Unit) and microphones \cite{tum2023edgar}.
+EDGAR is equipped with 10 camera sensors, 4 \ac{LiDAR} sensors (long and short-range), 6 RADAR sensors as well as \ac{GPS}, \ac{IMU} and microphones \cite{tum2023edgar}.
 
-\subsection{Perception Systems in Autonomous Vehicles}
+\subsection{Perception Systems in \acp{AV}}
 Perception systems are an essential component of \acp{AV}, responsible for interpreting the
 vehicle's surroundings and enabling safe navigation. They are the basis of the modular software stack from \ref{fig:AVStack}.
-These systems process data from sensors such as LiDAR,
+These systems process data from sensors such as \ac{LiDAR},
 radar, and cameras to detect and classify objects, track their movements, and localize the vehicle within
 its environment \cite{liu2018perception}. The perception system builds a comprehensive model of the environment,
 which is then used by other modules—such as prediction, planning, and control—to make driving decisions.
 
 This thesis will refer to "Perception Data" as the processed output from the vehicle's perception system. This includes information about detected objects (e.g., vehicles, pedestrians), their classifications, positions, and trajectories. The perception system also generates high-level semantic information such as lane markings, traffic signs, and road boundaries. This data enables \acp{AV} to understand their environment and make informed decisions.
 
-We utilize Autoware, an open-source software stack designed for autonomous driving systems for all perception-related tasks in this project. Autoware provides a comprehensive set of tools for processing sensor data and generating perception outputs \cite{kato2018autoware}. It includes object detection, classification, tracking, and localization modules using sensors such as LiDAR, radar, and cameras. By leveraging Autoware's robust perception capabilities, we ensure that our system can handle complex environments while maintaining flexibility for future improvements.
+We utilize Autoware, an open-source software stack designed for autonomous driving systems for all perception-related tasks in this project. Autoware provides a comprehensive set of tools for processing sensor data and generating perception outputs \cite{kato2018autoware}. It includes object detection, classification, tracking, and localization modules using sensors such as \ac{LiDAR}, radar, and cameras. By leveraging Autoware's robust perception capabilities, we ensure that our system can handle complex environments while maintaining flexibility for future improvements.
 
-Autoware also supports sensor fusion techniques that combine data from multiple sensors to improve accuracy and reliability. This is especially important when dealing with noisy or incomplete sensor data. For instance, Autoware's fusion algorithms can combine LiDAR point clouds with radar measurements to enhance object detection
+Autoware also supports sensor fusion techniques that combine data from multiple sensors to improve accuracy and reliability. This is especially important when dealing with noisy or incomplete sensor data. For instance, Autoware's fusion algorithms can combine \ac{LiDAR} point clouds with radar measurements to enhance object detection
 performance in adverse weather conditions where cameras may struggle.
-\section{Teleoperation Concepts}
+\section{Teleoperation Concepts} \label{section:teleoperation}
 
 Teleoperation is an essential fallback solution for \acp{AV},
 enabling a human operator to remotely assist or take control of a vehicle when
@@ -186,7 +193,7 @@ Several teleoperation concepts have been developed to address different aspects 
 \subsection{Remote Driving}
 Remote Driving is one of the earliest teleoperation concepts,
 where a human operator takes full control of the vehicle's
-dynamic driving tasks (DDT), including steering, acceleration,
+dynamic driving tasks, including steering, acceleration,
 and braking. This concept has been explored for more than two decades.
 Early research by Sworder et al. \cite{sworder1999performance} (1999) demonstrated the feasibility
 of teleoperating vehicles using direct control methods, where
@@ -274,10 +281,10 @@ such as detecting an object that is not truly obstructing the path or
 misinterpreting environmental features like lane markings or road signs.
 In such cases, Perception Modification allows a remote operator to
 intervene by modifying some elements of perception to correct \ac{AV}'s interpretation,
-enabling it to resume its journey \cite{Feiler2021ThePM,feiler2023perception}.
+enabling it to resume its journey \cite{Feiler2021ThePM}.
 
 In this concept, the operator has access to both raw sensor data
-(e.g., LiDAR point clouds or camera images) and processed perception
+(e.g., \ac{LiDAR} point clouds or camera images) and processed perception
 data (e.g., object classifications or environmental models).
 By reviewing this data, operators can identify discrepancies
 between what the vehicle perceives and what is present in its
@@ -285,7 +292,7 @@ surroundings. For example, if a false-positive detection is blocking
 the vehicle's path—such as a plastic bag being detected as a solid
 obstacle—the operator can modify or correct these perceptions by
 marking the area as drivable. This correction enables the AV to
-continue its mission without requiring complete manual control \cite{feiler2023perception}.
+continue its mission without requiring complete manual control \cite{Feiler2021ThePM}.
 
 The Perception Modification concept is beneficial because
 it reduces the cognitive load on the operator compared to direct control methods.
@@ -296,8 +303,8 @@ high mental workload \cite{Brecht}. Additionally, Perception Modification can
 be extended beyond object detection corrections; operators could also modify other
 aspects of the environmental model, such as lane boundaries or drivable space predictions.
 
-As Feiler and Diermeyer \cite{Feiler2021ThePM,feiler2023perception} define it, the implementation of
-Perception Modification involves integrating a  Human-Machine Interface (HMI) that provides operators with real-time access to both raw sensor data and processed perception data. The HMI allows operators to
+As Feiler and Diermeyer \cite{Feiler2021ThePM} define it, the implementation of
+Perception Modification involves integrating a  \ac{HMI} that provides operators with real-time access to both raw sensor data and processed perception data. The HMI allows operators to
 mark areas as drivable or ignore specific detections deemed irrelevant or incorrect. The vehicle's planning module receives this modified perception data and generates a new trajectory based on these corrections.
 
 In their comparative study of teleoperation concepts, Brecht et al. \cite{Brecht} found
@@ -308,7 +315,7 @@ situations where false-positive detections or indeterminate objects hinder an AV
 However, it may not be suitable for all disengagement scenarios—particularly those
 involving complex trajectory planning failures or situations requiring immediate manual intervention.
 
-\section{Environmental Data Visualization for Autonomous Vehicles}
+\section{Environmental Data Visualization for \acp{AV}}
 Environmental data visualization plays a fundamental role in \ac{AV} systems,
 particularly in teleoperation scenarios where human operators must understand and interpret
 complex sensor data to make critical decisions.
@@ -316,7 +323,7 @@ Visualizing environmental data is crucial for two reasons: First, it enables ope
 maintain high \ac{SA} during
 teleoperation tasks \cite{Gnatzig}. Second, it allows for effective monitoring and verification
 of the vehicle's perception system, essential for identifying and correcting potential errors
-in the automated driving system \cite{feiler2023perception}.
+in the automated driving system \cite{Feiler2021ThePM}.
 
 \subsection{Challenges in Visualizing Multi-Sensor Data}\label{subsection:challengesmultisensor}
 One of the primary challenges in environmental data visualization is integrating data from multiple
@@ -325,7 +332,7 @@ massive amounts of data - up to 3-6 TB of raw data per hour of operation from th
 . A single 4K camera operating at 30 frames per second can produce
 approximately 5.4 TB per hour, while a typical AV may have 6-12 cameras along with other sensors \cite{visualcapitalist2024}
 . This creates a significant challenge in data processing, transmission,
-and visualization. Each sensor type has strengths and limitations, as defined in section \ref{subsection:sensors}.
+and visualization. Each sensor type has strengths and limitations, as defined in Section \ref{subsection:sensors}.
 
 The sensor fusion process combines these different data streams into a single, a unified environmental
 model that is used by nearly all parts of the autonomous driving stack like perception system \cite{feng2020deep}
@@ -353,7 +360,7 @@ The visualization of sensor data and perception outputs is crucial for developin
 Major \ac{AV} companies have developed sophisticated operator interfaces to support remote monitoring and intervention when autonomous systems face complex or ambiguous scenarios. These interfaces are designed to provide comprehensive environmental awareness by integrating real-time sensor data, perception outputs,
 and vehicle behavior into an accessible format. Below, we highlight examples of operator-focused visualization systems developed by leading companies.
 
-Waymo's Fleet Response Interface \cite{waymo2024fleetresponse}, shown in figure \ref{fig:Waymo} is a prime example of a teleoperation tool designed for remote intervention. This interface provides a detailed 3D visualization of the vehicle’s surroundings, integrating LiDAR point clouds, camera feeds, and object detection data in real-time. Remote operators can monitor the vehicle’s perception system and provide guidance when necessary. For instance, operators can review live video feeds and rewind past footage to better understand complex situations such as construction zones or ambiguous road markings. The system allows operators to suggest lane changes or route adjustments while ensuring the Waymo Driver remains in complete vehicle control.
+Waymo's Fleet Response Interface \cite{waymo2024fleetresponse}, shown in figure \ref{fig:Waymo} is a prime example of a teleoperation tool designed for remote intervention. This interface provides a detailed 3D visualization of the vehicle’s surroundings, integrating \ac{LiDAR} point clouds, camera feeds, and object detection data in real-time. Remote operators can monitor the vehicle’s perception system and provide guidance when necessary. For instance, operators can review live video feeds and rewind past footage to better understand complex situations such as construction zones or ambiguous road markings. The system allows operators to suggest lane changes or route adjustments while ensuring the Waymo Driver remains in complete vehicle control.
 
 \begin{figure}
     \includegraphics[width=0.8\textwidth]{figures/waymo.png}
@@ -363,7 +370,7 @@ Waymo's Fleet Response Interface \cite{waymo2024fleetresponse}, shown in figure 
 \end{figure}
 
 Zoox's TeleGuidance System \cite{zoox2024teleguidance} is another example of an operator interface designed for remote assistance. Like Waymo’s system, Zoox provides a separate view of the camera feed and a 3D environment model of the vehicle’s perception. This system allows the operator to do both waypoint guidance
- \cite{corridor} and also a subset of perception modification \cite{feiler2023perception} by object recategorization.
+ \cite{corridor} and also a subset of perception modification \cite{Feiler2021ThePM} by object recategorization.
 
 \begin{figure}
     \centering
@@ -390,7 +397,7 @@ Fernrides' strategy is different from the other two. They provide a direct
 control interface for their teleoperation system. The operator can control the vehicle directly with a joystick and monitor the vehicle's surroundings with a 360-degree camera feed. This approach suits controlled environments like logistics yards, where real-time control is essential for efficient operations \cite{fernride2023}. Since their level of autonomy is lower than that of other examples, the need for perception visualization is also lower. Thus, they focus more on the raw sensory data representations.
 
 \subsection{ToD Visual 2.0}\label{subsection:todvisual}
-The software stack on which we are building our interfaces is based on ToD Visual 2.0, a teleoperation visualization software developed by the TUM Institute of Automotive Technology. This software is an improved version of ToD Visual \cite{Schimpe}, initially developed for the TUM EDGAR research vehicle. The new version introduces a modular structure, allowing for the easy integration of various visualization approaches and customization to meet specific use cases.ToD Visual 2.0 has already been showcased in public as part of the TUM Wiesn Shuttle event, where it was used to display sensory and perception data during the autonomous shuttle's operation in the challenging traffic conditions surrounding Munich's Oktoberfest \cite{adac2024wiesn, tum2024wiesn}. This real-world demonstration highlighted the software's capabilities in rendering complex sensor data and providing meaningful insights into vehicle behavior under extreme conditions. Although ToD Visual 2.0 is not yet open-sourced, plans are underway to make it publicly available. This will enable broader adoption and collaboration within the research and development community. The software stack provides robust capabilities for rendering sensory information, such as point clouds from LiDAR, camera images, and radar data. Additionally, it supports visualization of perception outputs, including:
+The software stack on which we are building our interfaces is based on ToD Visual 2.0, a teleoperation visualization software developed by the TUM Institute of Automotive Technology. This software is an improved version of ToD Visual \cite{Schimpe}, initially developed for the TUM EDGAR research vehicle. The new version introduces a modular structure, allowing for the easy integration of various visualization approaches and customization to meet specific use cases.ToD Visual 2.0 has already been showcased in public as part of the TUM Wiesn Shuttle event, where it was used to display sensory and perception data during the autonomous shuttle's operation in the challenging traffic conditions surrounding Munich's Oktoberfest \cite{adac2024wiesn, tum2024wiesn}. This real-world demonstration highlighted the software's capabilities in rendering complex sensor data and providing meaningful insights into vehicle behavior under extreme conditions. Although ToD Visual 2.0 is not yet open-sourced, plans are underway to make it publicly available. This will enable broader adoption and collaboration within the research and development community. The software stack provides robust capabilities for rendering sensory information, such as point clouds from \ac{LiDAR}, camera images, and radar data. Additionally, it supports visualization of perception outputs, including:
 \begin{itemize}
     \item Bounding boxes with color-coded classifications for object detection,
     \item Trajectory information for planned vehicle paths,
@@ -404,16 +411,16 @@ The software stack on which we are building our interfaces is based on ToD Visua
     \label{fig:ToDVisual}
 \end{figure}
 
-The interface before our contribution within this paper can be seen in figure \ref{fig:ToDVisual}.
+The interface before our contribution within this paper can be seen in Figure \ref{fig:ToDVisual}.
 
 For this thesis, we have taken ToD Visual 2.0 as a foundation and enhanced several components to align with our specific use case. These improvements include refining existing features and adding new functionalities tailored to support our Separate View and Integrated View approaches.
 
 
 \subsection{Separate View}\label{section:separateview}
-In this section, we define the Separate View visualization approach, which involves presenting 2D and 3D data in distinct windows or displays for the operator. This method allows operators to view the 2D data (e.g., camera images) alongside processed perception outputs and raw 3D data (e.g., object detections, lidar point clouds) in separate, clearly delineated spaces. By separating these views, operators can compare the raw data against the system's perception outputs to identify potential discrepancies, such as misclassifications or false positives.
+In this section, we define the Separate View visualization approach, which involves presenting 2D and 3D data in distinct windows or displays for the operator. This method allows operators to view the 2D data (e.g., camera images) alongside processed perception outputs and raw 3D data (e.g., object detections, \ac{LiDAR} point clouds) in separate, clearly delineated spaces. By separating these views, operators can compare the raw data against the system's perception outputs to identify potential discrepancies, such as misclassifications or false positives.
 
-The Separate View approach is particularly advantageous for teleoperation scenarios where \ac{SA} and perception verification are critical. Operators can use the 2D view to observe raw camera feeds for a direct visual understanding of the environment, while the 3D view provides a synthesized representation of the vehicle's perception system, including object bounding boxes, and trajectory predictions alongside with raw 3D data like LiDAR point clouds. This dual-view setup aids in identifying errors in the perception system and enables operators to make informed decisions when intervening.
-\paragraph{Implementation in Our Work} Our implementation of the Separate View approach builds on a codebase called ToD-Visual 2.0, explained in depth in section \ref{subsection:todvisual}, which provides a foundation for developing advanced teleoperation interfaces.
+The Separate View approach is particularly advantageous for teleoperation scenarios where \ac{SA} and perception verification are critical. Operators can use the 2D view to observe raw camera feeds for a direct visual understanding of the environment, while the 3D view provides a synthesized representation of the vehicle's perception system, including object bounding boxes, and trajectory predictions alongside with raw 3D data like \ac{LiDAR} point clouds. This dual-view setup aids in identifying errors in the perception system and enables operators to make informed decisions when intervening.
+\paragraph{Implementation in Our Work} Our implementation of the Separate View approach builds on a codebase called ToD-Visual 2.0, explained in depth in Section \ref{subsection:todvisual}, which provides a foundation for developing advanced teleoperation interfaces.
 It gives us the base ability to visualize raw sensor data and special visualizations for some of the perception output.
 a parallel thesis project by El Alami \cite{yassinethesis} focuses on further developing this Separate View concept, exploring ways to optimize its usability and
 implementation of visualization methods for required perception components. This collaboration ensures that the work benefits from iterative improvements and shared insights into the challenges and
@@ -427,7 +434,7 @@ reducing task performance and \ac{SA}. The Integrated View aims to mitigate thes
 merging raw sensor data with processed perception outputs into a single representation. This approach seeks to enhance
 \ac{SA} and reduce cognitive overload by eliminating the need for operators to manage multiple displays.
 However, achieving this integration is not without challenges. A key issue is the dimensionality disparity between the data sources:
-visual data from cameras is inherently 2D, while perception data such as LiDAR point clouds exist in 3D.
+visual data from cameras is inherently 2D, while perception data such as \ac{LiDAR} point clouds exist in 3D.
 Ultimately, all this information must be presented to the operator in a 2D format.
 This section explores two primary methods for addressing this challenge:
 Image Space Representation and 3D Space Representation.
@@ -435,7 +442,7 @@ Image Space Representation and 3D Space Representation.
 \paragraph{Image Space Representation} One common approach is to project 3D information onto a
 2D image space. For example, bounding box projections for object detection are
 widely used in autonomous driving systems as can be seen in Zoox's TeleGuidance sytem
-on figure \ref{fig:Zoox}. These projections overlay 3D object
+on Figure \ref{fig:Zoox}. These projections overlay 3D object
 detections onto 2D camera images, providing operators with a simplified view of
 the environment. Florea et al. \cite{Florea} extend this concept by using semantic segmentation on
 3D point cloud data and projecting the results onto 2D images for improved
@@ -456,11 +463,11 @@ to incomplete or misleading visualizations.
 \paragraph{3D Space Representation} This approach involves maintaining the environmental
 data in 3D space while providing methods to integrate 2D camera feeds. This can be
 achieved either through projections onto basic geometric shapes, as demonstrated by
-Feiler and Diermeyer \cite{feiler2023perception}, and shown in the figure \ref{fig:PerceptionMod}, or through a comprehensive 3D reconstruction of the surroundings using camera and depth data
+Feiler and Diermeyer \cite{Feiler2021ThePM}, and shown in the Figure \ref{fig:PerceptionMod}, or through a comprehensive 3D reconstruction of the surroundings using camera and depth data
 . While geometric projection methods offer simplicity, they often encounter issues with collision of perception data points
 that do not align with the projected locations. The creation of accurate 3D reconstructions, though more challenging to implement,
 provides a more complete and spatially accurate representation of the environment. We will refer to this
-comprehensive approach as the "Integrated View" throughout this thesis, as it offers the most promising solution for
+comprehensive approach as the \emph{Integrated View} throughout this thesis, as it offers the most promising solution for
 combining both raw sensor data and perception outputs in a unified, spatially coherent representation. We will explore
 two approaches for implementing this Integrated View. The first approach involves using \ac{NeRF} to rendering
 realistic 3D reconstructions of the environment. The second approach focuses on depth completion techniques to fuse the sensory data
@@ -494,21 +501,21 @@ These characteristics make ac{NeRF}-based methods a promising but challenging ca
 
 \subsection{Depth Completion}
 
-Depth completion addresses converting sparse and irregular depth data into dense, regular depth information. This process is particularly relevant for \acp{AV}, where LiDAR sensors provide accurate but sparse 3D measurements. Having complete depth information enables precise scene reconstruction, as the dense depth map allows for accurate projection of camera images onto the 3D space, creating a comprehensive view of the environment \cite{tang2023comprehensive}.
+Depth completion addresses converting sparse and irregular depth data into dense, regular depth information. This process is particularly relevant for \acp{AV}, where \ac{LiDAR} sensors provide accurate but sparse 3D measurements. Having complete depth information enables precise scene reconstruction, as the dense depth map allows for accurate projection of camera images onto the 3D space, creating a comprehensive view of the environment \cite{tang2023comprehensive}.
 
-The KITTI depth completion benchmark has become the standard evaluation platform for these methods \cite{uhrig2017sparsity}, providing a dataset of over 93,000 depth maps with corresponding raw LiDAR scans and RGB images. The benchmark evaluates methods using metrics such as iRMSE (inverse root mean square error) and iMAE (inverse mean absolute error) to assess performance against ground truth data.
+The KITTI depth completion benchmark has become the standard evaluation platform for these methods \cite{uhrig2017sparsity}, providing a dataset of over 93,000 depth maps with corresponding raw \ac{LiDAR} scans and RGB images. The benchmark evaluates methods using metrics such as \ac{iRMSE} and \ac{iMAE} to assess performance against ground truth data.
 
-Recent advances in depth completion have explored various learning approaches. Supervised methods like GuideNet have demonstrated superior performance by effectively fusing image features at different encoder stages with sparse depth features \cite{tang2023guidenet}. The Convolutional Spatial Propagation Network (CSPN) achieves high accuracy with relatively fast runtime, making it suitable for real-time applications \cite{cheng2020cspn}. These supervised approaches, however, heavily rely on ground truth data, which can be costly and challenging to obtain in practical applications.
+Recent advances in depth completion have explored various learning approaches. Supervised methods like GuideNet have demonstrated superior performance by effectively fusing image features at different encoder stages with sparse depth features \cite{tang2023guidenet}. The \ac{CSPN} achieves high accuracy with relatively fast runtime, making it suitable for real-time applications \cite{cheng2020cspn}. These supervised approaches, however, heavily rely on ground truth data, which can be costly and challenging to obtain in practical applications.
 
 Self-supervised and unsupervised methods have emerged as promising alternatives that eliminate the dependence on ground truth data. Wong et al. introduced a self-supervised approach that leverages visual inertial odometry to complete depth maps without explicit supervision \cite{wong2020unsupervised}. Recent work by Li et al. explores using 3D perceptual features and multi-view geometry consistency to achieve high-precision depth completion without ground truth data \cite{li2023self}. However, the accuracy remains slightly inferior to supervised methods.
 
-Several factors warrant consideration when considering depth completion for our Integrated View approach. The method provides accurate dense depth information and enables precise 3D scene reconstruction while being computationally more efficient than ac{NeRF}-based methods. Some implementations achieve real-time performance, making them suitable for teleoperation applications. However, the approach faces challenges such as dependence on LiDAR sparsity patterns and potential struggles in areas with high occlusion. Additionally, the method requires careful sensor calibration and synchronization to ensure accurate fusion of LiDAR and camera data.
+Several factors warrant consideration when considering depth completion for our Integrated View approach. The method provides accurate dense depth information and enables precise 3D scene reconstruction while being computationally more efficient than ac{NeRF}-based methods. Some implementations achieve real-time performance, making them suitable for teleoperation applications. However, the approach faces challenges such as dependence on \ac{LiDAR} sparsity patterns and potential struggles in areas with high occlusion. Additionally, the method requires careful sensor calibration and synchronization to ensure accurate fusion of \ac{LiDAR} and camera data.
 
 These characteristics make depth completion a promising approach for real-time teleoperation interfaces, mainly when computational efficiency is a priority. Generating dense, accurate depth maps in real time provides a solid foundation for creating comprehensive environmental visualizations for teleoperators.
 
-\section{User Experience and Interface Design for Autonomous Vehicles}
+\section{User Experience and Interface Design for \acp{AV}}
 The design of effective user interfaces for \acp{AV} represents a critical challenge in the development of safe and reliable autonomous systems. As vehicles become increasingly automated, the interaction between humans and autonomous systems becomes more complex, particularly in scenarios requiring human intervention \cite{Kettwich}. While the ultimate goal of \acp{AV} is to minimize human involvement, research has shown that human operators will still be required for handling edge cases and complex scenarios that exceed the vehicle's autonomous capabilities \cite{mutzenich2021updating}.
-\subsection{Human-Machine Interaction in Autonomous Vehicles}
+\subsection{Human-Machine Interaction in \acp{AV}}
 \ac{HMI} in \acp{AV} focuses on creating interfaces that facilitate effective communication between the operator and the vehicle's systems. The primary goal is to ensure safe operation while maintaining an accessible user experience. This is particularly challenging in teleoperation scenarios, where operators must process complex information from multiple sources while maintaining high levels of \ac{SA} \cite{Georg}.
 Modern HMI systems incorporate multiple interaction modalities to enhance operator performance and safety. Visual interfaces through \acp{GUI} serve as the primary information channel, while additional modalities such as auditory and haptic feedback provide complementary information \cite{kallioniemi2021enhancing}. This multi-modal approach helps distribute cognitive load across different sensory channels, potentially improving operator performance and reducing mental workload.
 \subsection{User-Centered Design Principles for Vehicle Interfaces}
@@ -557,8 +564,8 @@ These requirements were also considered throughout the development phase and are
 After the requirements phase, user-centered design process involves:
 
 \paragraph{Design Solution Development:} Creating interfaces that meet the specified requirements through iterative prototyping and refinement. This includes implementing visualization methods that effectively combine sensor data and perception outputs.
-This aspect of the process is discussed within chapter \ref{chapter:methodology}.
-\paragraph{Evaluation:} Testing the design solutions against the requirements through user studies and expert evaluations. This involves measuring \ac{SA}, cognitive load, and task performance using standardized metrics and assessment tools. And This part of the process is introduced in section \ref{section:evaluationmethods} and analyzed in more detail in chapter \ref{chapter:userstudy}.
+This aspect of the process is discussed within Chapter \ref{chapter:methodology}.
+\paragraph{Evaluation:} Testing the design solutions against the requirements through user studies and expert evaluations. This involves measuring \ac{SA}, cognitive load, and task performance using standardized metrics and assessment tools. And This part of the process is introduced in Section \ref{section:evaluationmethods} and analyzed in more detail in Chapter \ref{chapter:userstudy}.
 
 This systematic approach ensures that the resulting interface design meets technical requirements and effectively supports operator needs and capabilities in teleoperation scenarios.
 
@@ -570,9 +577,9 @@ As discussed in Section \ref{subsection:humanfactors}, \ac{SA} is critical in te
 
 Two prominent methods are commonly used to evaluate \ac{SA} in teleoperation tasks: the \ac{SAGAT} and the \ac{SART}. \ac{SAGAT}, developed by Endsley \cite{endsley1988sagat}, is an objective measure that involves freezing a simulation at random intervals and querying operators about their perception and understanding of the situation. During these pauses, displays are blanked, and operators are asked specific questions about elements in the environment, such as object locations or potential risks \cite{endsley2000direct}. This method allows for detailed assessment across all three levels of \ac{SA}: perception (Level 1), comprehension (Level 2), and projection (Level 3).
 
-In contrast, SART is a subjective post-trial rating technique where operators self-assess their \ac{SA} based on factors like attention demand, attentional supply, and understanding \cite{taylor1990sart}. While \ac{SART} provides insights into operators' confidence levels, it has been criticized for measuring operator's confidence in the \ac{SA} they perceive rather than measuring the actual \ac{SA} \cite{endsley2020review}. This distinction is crucial in teleoperation tasks where overconfidence can lead to errors.
+In contrast, \ac{SART} is a subjective post-trial rating technique where operators self-assess their \ac{SA} based on factors like attention demand, attentional supply, and understanding \cite{taylor1990sart}. While \ac{SART} provides insights into operators' confidence levels, it has been criticized for measuring operator's confidence in the \ac{SA} they perceive rather than measuring the actual \ac{SA} \cite{endsley2020review}. This distinction is crucial in teleoperation tasks where overconfidence can lead to errors.
 
-For this thesis, we adopt \ac{SAGAT} as our primary evaluation method for \ac{SA}. \ac{SAGAT} offers several advantages over SART:
+For this thesis, we adopt \ac{SAGAT} as our primary evaluation method for \ac{SA}. \ac{SAGAT} offers several advantages over \ac{SART}:
 \begin{itemize}
     \item It provides objective measurements of all three levels of \ac{SA}.
     \item It has been shown to be more sensitive to experimental differences than post-trial questionnaires \cite{endsley2000direct}.
@@ -598,7 +605,7 @@ Kettwich et al. demonstrated the value of expert evaluations in their study of t
 \acp{KPI} for evaluating teleoperation interfaces include feature completeness, information accessibility, and system responsiveness \cite{Brecht}. These \acp{KPI} help ensure that the interface provides all necessary features for effective teleoperation, including monitoring automation, providing disturbance information, and supporting operators in resolving issues.
 
 \section{Summary}
-The literature review has explored various aspects of teleoperation interfaces for \acp{AV}, from fundamental concepts to specific visualization approaches. This comprehensive analysis reveals the critical role of effective human-machine interfaces in ensuring safe and efficient teleoperation, particularly for perception modification tasks.
+The literature review has explored various aspects of teleoperation interfaces for \acp{AV}, from fundamental concepts to specific visualization approaches. This comprehensive analysis reveals the critical role of effective \acp{HMI} in ensuring safe and efficient teleoperation, particularly for perception modification tasks.
 \subsection{Requirements}
 
 The requirements for the visualization interface were derived through a comprehensive analysis of the literature and existing approaches, as outlined in earlier sections of this thesis. The requirements stem from three main sources:
@@ -662,9 +669,9 @@ These requirements will guide the development and evaluation of our visualizatio
 
 While teleoperation has been extensively studied as a fallback solution for \acp{AV}, limited research focuses explicitly on perception modification interfaces and their effectiveness in real-world scenarios \cite{Georg}. Existing studies have primarily concentrated on direct control or remote assistance concepts, leaving a significant gap in understanding how different visualization approaches affect operator performance in perception modification tasks.
 
-Current research lacks comprehensive user studies comparing different visualization methods for perception data presentation. Although some studies have evaluated individual aspects of teleoperation interfaces \cite{Kettwich}, there is insufficient evidence to determine which visualization approaches are most effective for perception modification tasks. This gap is particularly notable in the context of integrating multiple data streams (2D camera feeds, 3D LiDAR data, and perception outputs) into a unified display.
+Current research lacks comprehensive user studies comparing different visualization methods for perception data presentation. Although some studies have evaluated individual aspects of teleoperation interfaces \cite{Kettwich}, there is insufficient evidence to determine which visualization approaches are most effective for perception modification tasks. This gap is particularly notable in the context of integrating multiple data streams (2D camera feeds, 3D \ac{LiDAR} data, and perception outputs) into a unified display.
 
-This thesis addresses these gaps through two main research objectives. First, we aim to develop and evaluate an ideal implementation of our "Integrated View" approach, which combines raw sensor data and perception outputs in a unified visualization. This involves investigating how different visualization techniques affect operator \ac{SA} and cognitive load. Second, we assess how closely our current implementation approaches this ideal, identifying technical limitations and areas for improvement.
+This thesis addresses these gaps through two main research objectives. First, we aim to develop and evaluate an ideal implementation of our \emph{Integrated View} approach, which combines raw sensor data and perception outputs in a unified visualization. This involves investigating how different visualization techniques affect operator \ac{SA} and cognitive load. Second, we assess how closely our current implementation approaches this ideal, identifying technical limitations and areas for improvement.
 
 Through user studies and performance evaluations, we seek to provide empirical evidence for the effectiveness of different visualization approaches in perception modification tasks. The findings will contribute to the understanding of teleoperation interface design and lay the groundwork for future research in this field, particularly in developing more advanced visualization methods and improving operator performance in perception modification tasks.
 

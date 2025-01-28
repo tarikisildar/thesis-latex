@@ -7,9 +7,8 @@ This chapter details our approach to developing and evaluating visualization int
 The development process follows user-centered design principles, focusing on meeting the requirements established in Section 2.7.1. We implement two distinct interfaces - the Separate View and Integrated View - to compare their effectiveness in supporting perception modification tasks. Both interfaces are built on the ToD Visual 2.0 framework, ensuring consistent baseline functionality while enabling fair comparison of their unique visualization approaches.
 \section{Interface Design}
 Before talking about the implementation, we first need to discuss the interface design.
-We need to design the two interfaces, we compare such that they are good fits to our requirements,
-they are implementable in a reasonable amount of time, and also they need to cover same features
-to not bias the study results towards one interface with more features. We begin by discussing the Separate View interface.
+We need to design both interfaces so they fit our requirements and remain implementable in a short time. Each interface must also cover the same features to avoid bias in comparisons.
+We begin by discussing the \emph{Separate View} interface.
 
 
 
@@ -21,9 +20,9 @@ The 3D visualization window integrates several key components developed by El Al
 This dual-window approach allows operators to directly compare raw sensor data with the vehicle's perception outputs, facilitating the identification of potential perception errors or misclassifications \cite{Georg}. While the implementation details of these visualization features are covered in El Alami's work \cite{yassinethesis}, they form essential components of both our interface approaches and serve as the foundation for our comparative analysis.
 
 \subsection{Integrated View}
-To implement the Integrated View approach, which combines raw sensor data and perception outputs in a unified visualization, we selected Depth Completion as the primary method for creating a coherent 3D representation. This approach allows us to generate dense depth maps from sparse LiDAR data, which can then be used to create point clouds onto which camera images are projected.
+To implement the Integrated View approach, which combines raw sensor data and perception outputs in a unified visualization, we selected Depth Completion as the primary method for creating a coherent 3D representation. This approach allows us to generate dense depth maps from sparse \ac{LiDAR} data, which can then be used to create point clouds onto which camera images are projected.
 
-The camera configuration is crucial in this setup, as it is the primary visual information source. Research has shown that field of view (FOV) significantly impacts teleoperation performance. Studies indicate that a 200° FOV enables 40\% higher average speeds compared to 40° FOV, and a 120° FOV reduces stopped time by half compared to 40° FOV \cite{fovConsiderations}. However, wider FOVs can increase motion sickness and scene distortion. A horizontal FOV between 120 and 200 degrees provides optimal performance for teleoperation tasks \cite{fovConsiderations}. We selected a 120-degree FOV to balance performance requirements with information density and cognitive load considerations.
+The camera configuration is crucial in this setup, as it is the primary visual information source. Research has shown that \ac{FOV} significantly impacts teleoperation performance. Studies indicate that a 200° FOV enables 40\% higher average speeds compared to 40° FOV, and a 120° FOV reduces stopped time by half compared to 40° FOV \cite{fovConsiderations}. However, wider FOVs can increase motion sickness and scene distortion. A horizontal FOV between 120 and 200 degrees provides optimal performance for teleoperation tasks \cite{fovConsiderations}. We selected a 120-degree FOV to balance performance requirements with information density and cognitive load considerations.
 
 For video quality, we opted for 1280x720 resolution at 30 frames per second. This configuration requires 1.5 to 3 Mbit/s upstream bandwidth \cite{vdocipher2024bandwidth}, which aligns with the average network capabilities in Germany. As the camera stream represents the primary bandwidth constraint, this resolution provides the highest quality possible while maintaining reliable transmission.
 
@@ -41,7 +40,7 @@ The detailed implementation of these components and the depth completion approac
     \midrule
     Camera Feed & Supports multiple camera outputs simultaneously in a dedicated window. & Camera images are projected onto a dense point cloud generated through depth completion. \\
     \midrule
-    Point Cloud Data & Displayed in a separate 3D visualization window. & Generated using depth completion from sparse LiDAR data and overlaid with camera projections. \\
+    Point Cloud Data & Displayed in a separate 3D visualization window. & Generated using depth completion from sparse \ac{LiDAR} data and overlaid with camera projections. \\
     \midrule
     Object Detection & Color-coded bounding boxes for object detection and classification in 3D visualization. & Same as Separate View. \\
     \midrule
@@ -66,17 +65,17 @@ The pipeline for generating the integration starts with estimating a depth map o
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth, trim=0 150pt 0 50pt, clip]{figures/pc.png}
-    \caption{Lidar point cloud from the simulation colored by camera projection}
+    \caption{\ac{LiDAR} point cloud from the simulation colored by camera projection}
     \label{fig:camera_projection}
 \end{figure}
 
-The first step in creating our Integrated View is establishing an accurate projection between the camera image space and the 3D LiDAR point cloud. This process involves several mathematical transformations to align the different coordinate systems and project 3D points onto the 2D image plane.
+The first step in creating our Integrated View is establishing an accurate projection between the camera image space and the 3D \ac{LiDAR} point cloud. This process involves several mathematical transformations to align the different coordinate systems and project 3D points onto the 2D image plane.
 
 \subsubsection{Coordinate System Transformations}
 
-To project a 3D point from the LiDAR coordinate system to the camera image plane, we perform the following sequence of transformations:
+To project a 3D point from the \ac{LiDAR} coordinate system to the camera image plane, we perform the following sequence of transformations:
 \begin{enumerate}
-    \item Transform the point from LiDAR coordinates to camera coordinates using extrinsic parameters.
+    \item Transform the point from \ac{LiDAR} coordinates to camera coordinates using extrinsic parameters.
     \item Project the transformed point onto the camera's image plane using intrinsic parameters.
     \item Apply the color information from the projected pixel back to the 3D point.
 \end{enumerate}
@@ -138,14 +137,14 @@ where:
 \end{itemize}
 
 This projection process forms the foundation for our Integrated View,
-enabling the combination of LiDAR point cloud data with camera imagery as seen in the figure \ref{fig:camera_projection}.
-We see it as a critical step in creating a coherent 3D representation of the vehicle's environment.
+enabling the combination of \ac{LiDAR} point cloud data with camera imagery as seen in the Figure \ref{fig:camera_projection}.
+This critical step ensures a coherent 3D representation of the vehicle's environment.
 Thus we also employed this method in the Separate View to color the raw point cloud
-coming from the Lidar sensors.
+coming from the \ac{LiDAR} sensors.
 
 In the next section we discuss how to populate the point cloud from a depth map. What's good about this
 projection method is it being input agnostic, meaning it can be used either with a depth map point cloud,
-or a raw point cloud from a Lidar sensor without any changes.
+or a raw point cloud from a \ac{LiDAR} sensor without any changes.
 
 \subsection{Depth Cloud Rendering}
 
@@ -156,7 +155,7 @@ or a raw point cloud from a Lidar sensor without any changes.
     \label{fig:depth_cloud}
 \end{figure}
 
-Depth cloud rendering is a crucial step in creating the Integrated View, as it involves generating a 3D point cloud from a depth image. This process allows for the visualization of environmental data in a spatially accurate and intuitive format. For this implementation, we utilized the depth camera provided by the CARLA simulation environment. While CARLA's depth camera provides precise depth information in simulation as it can be seen from figure \ref{fig:depth_cloud}. It is important to note that such sensors do not exist in real life. Real-world depth cameras, such as stereo cameras or LiDAR-based systems, have significant limitations, including reduced accuracy under poor lighting conditions or sparse data points.
+Depth cloud rendering is a crucial step in creating the Integrated View, as it involves generating a 3D point cloud from a depth image. This process allows for the visualization of environmental data in a spatially accurate and intuitive format. For this implementation, we utilized the depth camera provided by the CARLA simulation environment. While CARLA's depth camera provides precise depth information in simulation as it can be seen from Figure \ref{fig:depth_cloud}. It is important to note that such sensors do not exist in real life. Real-world depth cameras, such as stereo cameras or \ac{LiDAR}-based systems, have significant limitations, including reduced accuracy under poor lighting conditions or sparse data points.
 
 \subsubsection{Depth Camera in CARLA}
 
@@ -212,7 +211,7 @@ Unlike CARLA's idealized depth camera, real-world depth cameras face several cha
 \midrule
 Noise and Accuracy & Stereo cameras rely on disparity calculations and can struggle with low-texture regions or poor lighting conditions. \\
 \midrule
-Sparse Data & LiDAR sensors provide high-accuracy distance measurements but produce sparse point clouds that require interpolation or fusion with other sensors. \\
+Sparse Data & \ac{LiDAR} sensors provide high-accuracy distance measurements but produce sparse point clouds that require interpolation or fusion with other sensors. \\
 \midrule
 Field of View & Real-world cameras often have limited fields of view compared to simulated sensors. \\
 \bottomrule
@@ -226,19 +225,19 @@ For this reason we implemented our neural networks based depth completion method
 
 Depth cloud rendering forms a foundational part of our Integrated View implementation by enabling accurate spatial visualization of environmental data. The resulting colored point cloud serves as a base layer for integrating additional perception outputs such as object detections and lanelet maps.
 \subsection{Depth Completion}
-As mentioned in the last section, we must rely on something other than depth cameras for long distances. The LiDAR sensors provide accurate depth measurements, but their sparse nature limits our ability to create a comprehensive 3D visualization of the environment.
-Depth completion addresses this limitation by converting sparse depth data into dense depth maps by fusing LiDAR and camera data. This approach is particularly relevant for our Integrated View implementation, as it enables the creation of detailed, spatially accurate scene reconstructions.
+As mentioned in the last section, we must rely on something other than depth cameras for long distances. The \ac{LiDAR} sensors provide accurate depth measurements, but their sparse nature limits our ability to create a comprehensive 3D visualization of the environment.
+Depth completion addresses this limitation by converting sparse depth data into dense depth maps by fusing \ac{LiDAR} and camera data. This approach is particularly relevant for our Integrated View implementation, as it enables the creation of detailed, spatially accurate scene reconstructions.
 
-For our implementation, we selected the DySPN (Dynamic Spatial Propagation Network) architecture \cite{dyspn}, which introduces a non-linear propagation model for depth completion. Figure \ref{fig:dyspn_architecture} shows that the network employs a ResNet34-UNet backbone that generates an initial depth map, affinity matrix, and a series of spatial and sequential attention maps. The key innovation of DySPN lies in its dynamic approach to spatial propagation - unlike previous methods \cite{cheng2020cspn} that use fixed affinity matrices, DySPN adaptively adjusts the affinity weights during propagation through attention mechanisms.
+For our implementation, we selected the \ac{DySPN} architecture \cite{dyspn}, which introduces a non-linear propagation model for depth completion. Figure \ref{fig:dyspn_architecture} shows that the network employs a ResNet34-UNet backbone that generates an initial depth map, affinity matrix, and a series of spatial and sequential attention maps. The key innovation of \ac{DySPN} lies in its dynamic approach to spatial propagation - unlike previous methods \cite{cheng2020cspn} that use fixed affinity matrices, \ac{DySPN} adaptively adjusts the affinity weights during propagation through attention mechanisms.
 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{figures/dyspn.png}
-    \caption{DySPN Architecture}
+    \caption{\ac{DySPN} Architecture \cite{dyspn}}
     \label{fig:dyspn_architecture}
 \end{figure}
 
-We chose DySPN for several key reasons, as summarized in Table~\ref{table:dyspn_reasons}.
+We chose \ac{DySPN} for several key reasons, as summarized in Table~\ref{table:dyspn_reasons}.
 
 \begin{table}[h!]
 \centering
@@ -248,12 +247,12 @@ We chose DySPN for several key reasons, as summarized in Table~\ref{table:dyspn_
 \midrule
 Real-time Performance & The network can achieve inference in 38ms, making it suitable for teleoperation applications. \\
 \midrule
-Benchmark Performance & DySPN achieves state-of-the-art results on the KITTI depth completion benchmark with an RMSE of 709.12mm. \\
+Benchmark Performance & \ac{DySPN} achieves state-of-the-art results on the KITTI depth completion benchmark with an RMSE of 709.12mm. \\
 \midrule
 Supervised Learning  & While supervised learning typically requires extensive ground truth data, our simulation-based development environment using CARLA provides precise depth information for training. \\
 \bottomrule
 \end{tabular}
-\caption{Key Reasons for Selecting DySPN Architecture}
+\caption{Key Reasons for Selecting \ac{DySPN} Architecture}
 \label{table:dyspn_reasons}
 \end{table}
 
@@ -263,7 +262,7 @@ For our implementation, we made several modifications to adapt the network to ou
 \subsection{W-Shaped Development Cycle}
 The development approach for our depth completion model aligns with the W-shaped development cycle for learning assurance, as proposed by the European Union Aviation Safety Agency (EASA) \cite{easa2024}. This cycle provides a structured framework for developing \ac{AI} based systems.
 Similar to the V-model \cite{vmodel} that is widely used for software development for safety related products, W-Shaped Development Cycle introduce a second development point for the development of the \ac{AI} model.
-We have adapted our proof-of-concept level project to follow this method, which can be mapped to the key stages of the W-shaped cycle as shown in the Figure \ref{table:wshaped_cycle}.
+We have adapted our proof-of-concept level project to follow this method, which can be mapped to the key stages of the W-shaped cycle as shown in the Table \ref{table:wshaped_cycle}.
 
 \begin{table}[h!]
     \centering
@@ -275,7 +274,7 @@ We have adapted our proof-of-concept level project to follow this method, which 
     \midrule
     2 & \textbf{Data Management \& Verification:} We selected appropriate sensor configurations, including a 120-degree FOV camera and 1280x720 resolution at 30 fps. We utilized simulation data from CARLA for development and testing. \\
     \midrule
-    3 & \textbf{Learning Process Management:} We made decisions regarding the training algorithm and architecture for depth completion, selected performance evaluation metrics (e.g., iRMSE, iMAE), and chose appropriate hardware and software frameworks for implementation. \\
+    3 & \textbf{Learning Process Management:} We made decisions regarding the training algorithm and architecture for depth completion, selected performance evaluation metrics (e.g., \ac{iRMSE}, \ac{iMAE}), and chose appropriate hardware and software frameworks for implementation. \\
     \midrule
     4 & \textbf{Model Training:} This phase involved the actual training of our depth completion model, separate from the main interface development. \\
     \midrule
@@ -306,14 +305,14 @@ The sensor configuration aims to replicate TUM's EDGAR vehicle while maintaining
 \toprule
 \textbf{Sensor Type} & \textbf{Specifications/Details} \\
 \midrule
-Frontal LiDARs & Two LiDARs with 120-meter range, positioned at the front left and right corners with 45-degree angles. \\
+Frontal \ac{LiDAR}s & Two \ac{LiDAR}s with 120-meter range, positioned at the front left and right corners with 45-degree angles. \\
 \midrule
-LiDAR Specifications &
+\ac{LiDAR} Specifications &
 20 Hz rotation rate \par
 1,310,720 points per second \par
 64 channels \\
 \midrule
-Front-facing Camera & Resolution: 1280x720, Field of View (FOV): 120°. \\
+Front-facing Camera & Resolution: 1280x720, \ac{FOV}: 120°. \\
 \midrule
 Depth Camera & Matches the specifications of the front-facing camera. \\
 \midrule
@@ -343,7 +342,7 @@ The preprocessing pipeline transforms point cloud data into camera space using t
     \begin{subfigure}{\textwidth}
         \centering
         \includegraphics[width=\textwidth, trim=0 200pt 0 200pt, clip]{figures/point_cloud.png}
-        \caption{Projected LiDAR point cloud showing sparse depth information}
+        \caption{Projected \ac{LiDAR} point cloud showing sparse depth information}
         \label{fig:pointcloud_input}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
@@ -352,7 +351,7 @@ The preprocessing pipeline transforms point cloud data into camera space using t
         \caption{Ground truth depth map from CARLA's depth camera}
         \label{fig:depth_gt}
     \end{subfigure}
-    \caption{Example of collected training data showing the three input types: RGB image, sparse LiDAR point cloud, and ground truth depth map}
+    \caption{Example of collected training data showing the three input types: RGB image, sparse \ac{LiDAR} point cloud, and ground truth depth map}
     \label{fig:data_collection}
 \end{figure}
 \FloatBarrier
@@ -390,7 +389,7 @@ L_{total} = \alpha L_1 + \beta L_2 + \gamma L_{SSIM}
 \]
 
 
-where the Structural Similarity Index Measure (SSIM) loss evaluates the perceptual quality between predicted and ground truth depth maps. SSIM considers luminance, contrast, and structural information, making it particularly effective for maintaining overall depth map consistency. The L1 and L2 losses were specifically weighted to focus on depths below 120 meters, aligning with our LiDAR's range:
+where the \ac{SSIM} loss evaluates the perceptual quality between predicted and ground truth depth maps. SSIM considers luminance, contrast, and structural information, making it particularly effective for maintaining overall depth map consistency. The L1 and L2 losses were specifically weighted to focus on depths below 120 meters, aligning with our \ac{LiDAR}'s range:
 
 \[
     L_{1,2} = \begin{cases}
@@ -431,12 +430,12 @@ The validation loss shows consistent improvement throughout training, decreasing
 The sample outputs in Figure \ref{fig:training_progress} demonstrate the model's learning progression through epochs 1, 38, and 99, showing increasingly refined depth estimation and improved preservation of structural details. The final output at epoch 99 exhibits smooth depth transitions and accurate depth completion, indicating successful training despite the oscillations in the validation curve.
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth, trim=0 150pt 0 50pt, clip]{figures/depth_comp.png}
-    \caption{The point cloud generated by the output from the depth completion model}
+    \includegraphics[width=\textwidth, trim=0 150pt 0 50pt, clip]{figures/depth_comp_2.png}
+    \caption{The point cloud generated by the output from the depth completion model, colored by camera projection and laid over by other components}
     \label{fig:depth_completion_result}
 \end{figure}
 
-\section{Performance Optimization}
+\section{Performance Optimization}\label{section:performanceoptimization}
 
 For a teleoperation system to be effective, real-time performance is crucial. Research indicates that system latency should be kept below 300ms for controlled driving, and frame rates should be maintained above 5 Hz to avoid significant performance degradation \cite{neumeier2023feasibility}. Our optimization efforts focus on two main aspects: operator interface performance and network performance.
 
@@ -445,7 +444,8 @@ Our system runs on high-performance hardware, utilizing an NVIDIA RTX 4090 GPU a
 
 The depth completion model represents our most significant performance bottleneck, requiring 60-70ms per frame for estimation. At this processing speed, the system would be limited to less than 15 fps if processed synchronously. To overcome this limitation, we implemented an asynchronous processing approach where the depth estimation runs on a parallel thread. This allows visual updates to occur at full frame rate while depth information updates at a lower frequency. The difference in update rates is barely noticeable to operators due to the smooth integration of the parallel processing.
 
-The next significant CPU bottleneck involves processing and rendering point cloud data. We addressed this using the PCL library, implementing efficient filtering and concatenation of LiDAR inputs. Points that are too close to each other are filtered out to maintain rendering performance while preserving visual quality.
+The next significant CPU bottleneck involves processing and rendering point cloud data. We addressed this using the PCL library, implementing efficient filtering and concatenation of \ac{LiDAR} inputs. Points that are too close to each other are filtered out to maintain rendering performance while preserving visual quality.
+Since we expect high number of points to process, the each iteration effects the performance significantly. On the Point cloud renderer for \emph{Integrated View} we have the advantage of needing less operations
 
 \subsubsection{Network Performance}
 Network performance is critical for teleoperation systems, as they must operate within mobile network constraints. Our optimization strategy focuses on minimizing data throughput while maintaining essential information transmission.
@@ -457,3 +457,8 @@ We carefully select which data to transmit from vehicle to interface:
 \end{itemize}
 Instead of transmitting full depth images, we send point cloud data in a compressed format. This approach is more efficient as the sparse point cloud contains significant empty space, and point cloud reconstruction occurs on the operator side. Additionally, only relevant points for the frontal view are transmitted, further reducing bandwidth requirements.
 Through these optimizations, we maintain real-time performance while working within network bandwidth constraints, ensuring effective teleoperation capability.
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+\newpage

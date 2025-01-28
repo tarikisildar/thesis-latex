@@ -1,8 +1,64 @@
 % !TeX root = ../main.tex
 % Add the above to each chapter to make compiling the PDF easier in some editors.
 
-\chapter{Conclusion and Future Work}\label{chapter:conclusion}
+\chapter{Conclusion}\label{chapter:conclusion}
+
+This chapter concludes the thesis by summarizing the main contributions, discussing limitations in the applied methodology, and outlining potential future research directions for teleoperation interface designs targeting \ac{AV} use cases. The findings and developments presented in this work lay a foundation for advancing the Perception Modification concept in \acp{AV}, aiming to enhance operators' situational awareness and overall teleoperation performance.
 
 \section{Summary of Contribution}
+This thesis focused on designing, implementing, and planning an evaluation of two distinct teleoperation \ac{HMI} approaches to support Perception Modification tasks for \acp{AV}. Several key contributions were made:
+
+    \textbf{Requirements and Literature Synthesis:} Through a comprehensive review in Chapter \ref{chapter:literaturereview}, the thesis outlined the evolving landscape of \acp{AV} and teleoperation, emphasizing \ac{SA}, cognitive workload, and user acceptance as core design objectives. These insights led to a defined set of system-level and interface-level requirements that guided the subsequent development (see \ref{table:requirements}).
+
+    \textbf{Two Interface Designs:}
+    In Chapter \ref{chapter:methodology}, two teleoperation interface approaches were developed atop the ToD Visual 2.0 framework. The \emph{Separate View} (\ref{section:separateview}) keeps raw camera feeds and 3D perception data on separate displays, following existing industry conventions. In contrast, the \emph{Integrated View} (\ref{section:integratedview}) unifies raw sensor data and perception outputs in a single window, aiming to reduce cognitive load from switching between multiple views.
+
+    \textbf{Depth Completion for Unified Visualization:}  To enable the Integrated View, a \ac{DL} depth completion pipeline was constructed (see \ref{section:integratedviewimplementation}). While its performance was not state-of-the-art compared to specialized depth completion benchmarks, it delivered sufficiently dense 3D information to investigate whether unified rendering improves operator \ac{SA} and teleoperation performance.
+
+    \textbf{User Study Development:}
+    A comprehensive user study design in Chapter \ref{chapter:userstudy} was established, featuring scenario creation, questionnaire structures (\ac{SAGAT}, \ac{NASA-TLX}), and a custom simulation environment based on Munich’s Gärtnerplatz. This framework allows direct comparisons among the Separate View, the Integrated View, and an Integrated View with ground-truth depth as a baseline reference.
+
+
+Together, these elements form a cohesive approach to exploring how different visualization strategies influence operator effectiveness in teleoperating \acp{AV} for Perception Modification tasks. The results in Chapter \ref{chapter:results} highlight technical comparisons and demonstrate the feasibility of each interface variant, setting the stage for extensive user evaluations in future work.
+
+\section{Limitations of the Methodology}
+
+Several constraints and challenges arose during the research process that may influence the generalizability and interpretation of the findings:
+
+    \textbf{Simulation-oriented Method:} All implementation and scenario testing took place within the CARLA simulator integrated with Autoware. Although this setup provides repeatable scenarios and precise ground-truth data, real-world complexities (e.g., lighting variations, sensor noise, network inconsistencies) were not directly addressed. They are in some level simulated with the help of the CARLA simulator with different weather conditions and lighting settings, but the realism of the simulation is still limited.
+
+    \textbf{Depth Completion Generalization:}
+    The depth completion model was trained on a specific simulated dataset and showed decreased accuracy for objects at longer ranges. Extending to real-world conditions would require substantially more diverse training sets and additional validation against real sensor data.
+
+    \textbf{Limited Real-time Evaluation:}
+    The thesis focused on developing the user study structure (\ref{chapter:userstudy}) rather than fully executing it. While extensive scenario creation and technical preparations were completed, user tests and statistical analyses of their \ac{SA} or workload remain for subsequent research.
+
+    \textbf{Network Considerations:}
+    Although communication bandwidth and latency were recognized as critical in teleoperation (\ref{section:challenges}), the interfaces were not stress-tested under extreme or unreliable network conditions. Practical deployment would likely require further optimizations to meet real-world throughput and latency constraints.
+
+    \textbf{Implementation Trade-offs:}
+    Certain design decisions—such as focusing on a single forward-facing camera with a specific field of view—reflected practical engineering choices more than exhaustive design optimization. Incorporating wider camera coverage or multi-camera depth fusion could further improve operator \ac{SA}.
 
 \section{Future Research Directions}
+
+Based on insights gained from this thesis, several prominent directions would extend and refine the work:
+
+\textbf{Empirical User Study Execution:}
+Conducting the planned user study (\ref{chapter:userstudy}) with a representative group of participants is a key next step to empirically compare the Separate View and Integrated View in terms of \ac{SA}, mental workload, and operator performance. This data-driven validation is essential for confirming the hypothesized benefits of unified visualization.
+
+\textbf{Enhanced 3D Reconstruction Techniques:}
+Further research could explore alternative methods—such as \ac{NeRF} or improved self-supervised depth completion—to yield more robust, higher-fidelity 3D reconstructions. Understanding how improved depth reconstruction affects operators’ teleoperation performance is an open question, especially in complex or dynamic scenes.
+
+\textbf{Broadening Teleoperation Concepts:}
+The Perception Modification concept could be tested alongside other teleoperation approaches (e.g., Shared Control, Remote Driving) to discern whether a unified view also benefits tasks requiring direct vehicle control or collaborative path planning. Exploring multi-modal cue integration (e.g., haptic feedback) may further enrich operator awareness.
+
+\textbf{Full Perception Modification:}
+Integrating the Perception Modification interface with real-time sensor data modification capabilities (e.g., object removal, lane marking adjustment) would enable operators to actively manipulate the environment. Evaluating the effectiveness of these modifications on operator \ac{SA} and task performance is a promising avenue for future research.
+
+\textbf{Real-world Prototyping:}
+Future work might integrate the developed interfaces with actual sensor feeds on research vehicles like the TUM EDGAR. This real-world testing could illuminate issues hidden in simulation—such as varying sensor latencies, occlusions, or multi-sensor calibration challenges—and refine data transmission protocols under realistic network environments.
+
+\textbf{Multi-vehicle Teleoperation and Scalability:}
+Scaling teleoperation to fleets of \acp{AV} requires user interfaces capable of monitoring and intervening in multiple vehicles concurrently. Research could investigate strategies for dynamically prioritizing operator attention, partitioning interface layouts for multi-stream data, or automating routine Perception Modifications.
+
+In conclusion, this thesis contributes toward more advanced \ac{HMI} solutions, specifically targeting Perception Modification scenarios for \acp{AV}. By comparing and contrasting a well-established Separate View approach with a novel Integrated View concept, the research clarifies the technological and human-factor trade-offs inherent in teleoperation interfaces. Although definitive user-results lie beyond the current scope, the groundwork and design blueprint provided here will enable more systematic evaluations, ultimately guiding the design of next-generation teleoperation systems that enhance safety, efficiency, and public acceptance of \acp{AV}.

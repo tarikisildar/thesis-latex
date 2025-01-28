@@ -2,4 +2,10 @@
 
 %TODO: Abstract
 
+    Teleoperation serves as a crucial backup system for \acp{AV}, enabling human operators to assist when situations exceed the vehicle's capabilities. This thesis focuses on \ac{PM}, a teleoperation approach that allows operators to correct perception errors without taking full control of the vehicle. The research develops and evaluates a new interface design to improve how operators interact with sensor data during these correction tasks.
 
+    The main contribution is the development of an Integrated View interface that combines camera feeds, LiDAR data, and perception outputs in a single display. This implementation uses a \ac{DL} based depth completion model to create detailed 3D visualizations from sparse sensor data, enabling real-time operation. For comparison, we also developed a traditional Separate View interface that presents information across multiple windows.
+
+    To evaluate these interfaces, we created a structured testing framework using established metrics: \ac{SAGAT} for measuring operator awareness and \ac{NASA-TLX} for assessing cognitive workload. The study environment features a custom simulation based on Munich's road layout, ensuring realistic testing conditions for German operators.
+
+While comprehensive user testing is still ongoing, initial technical assessments suggest that combining multiple data streams into a single view could simplify operator decision-making during Perception Modification tasks. The research demonstrates the feasibility of real-time depth completion in teleoperation systems and establishes a foundation for future interface improvements. These findings contribute to the development of more effective teleoperation systems, strengthening the role of human oversight in \ac{AV} operations.

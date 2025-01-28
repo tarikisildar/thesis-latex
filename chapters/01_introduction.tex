@@ -4,10 +4,9 @@
 \chapter{Introduction}\label{chapter:introduction}
 
 \ac{AD} has been a topic of intense interest for researchers and
-industry professionals for the past few decades. Despite significant investments and
-efforts that we can see recently in the funding of Waymo \cite{waymo2024funding}, Wayve \cite{wayve2024funding},
-and numerous others, public acceptance remains a challenge. A Forbes Advisor
-survey \cite{forbes2024} conducted in January 2024 revealed that 93\% of the population harbors
+industry professionals for the past few decades.
+Despite significant recent funding (e.g., Waymo \cite{waymo2024funding}, Wayve \cite{wayve2024funding}), public acceptance remains a challenge.
+A Forbes Advisor survey \cite{forbes2024} conducted in January 2024 revealed that 93\% of the population harbors
 concerns about self-driving cars, with safety and technology malfunctions topping the
 list of worries.
 This widespread apprehension underscores the need for robust systems.
@@ -20,44 +19,44 @@ emphasizes the importance of effective \acp{HMI} in
 teleoperation, showing that well-designed interfaces can significantly improve user
 acceptance and usability of autonomous systems.
 
-Among various teleoperation concepts, this thesis focuses specifically on Perception Modification \cite{Feiler2021ThePM},
-ranked as the most effective approach for
-addressing common \ac{AV} failure cases \cite{Brecht} .The effectiveness of
+Among various teleoperation concepts (covered in \ref{section:teleoperation}), this thesis focuses specifically on Perception Modification \cite{Feiler2021ThePM},
+a remote assistance mode, ranked as the most effective approach for
+addressing common \ac{AV} failure cases \cite{Brecht}. Unlike remote driving or other remote assistance modes,
+Perception Modification allows operators to directly correct the vehicle's understanding of its environment, addressing the root cause of autonomous system failures while maintaining the benefits of automation.
+The effectiveness of
 teleoperation, especially in Perception Modification, heavily relies on the quality of the \ac{HMI} used by operators.
 
-This thesis compares two interface designs for teleoperation: the 'Separate View,'
+This thesis compares two interface designs for teleoperation: the \emph{Separate View},
 which presents 2D camera feeds and 3D perception data on separate displays, and
-the 'Integrated View,' which combines all raw sensor data and perception data in a single window.
+the \emph{Integrated View}, which combines all raw sensor data and perception data in a single window.
 (For detailed descriptions of these interfaces, see sections \ref{section:separateview} and \ref{section:integratedview}).
 
-In a recent study by Prinz et al.\cite{vizualizationUserStudy}, it was demonstrated that utilizing a 2D video stream for teleoperating a robotic arm
+In a recent study by Prinz et al. \cite{vizualizationUserStudy}, it was demonstrated that utilizing a 2D video stream for teleoperating a robotic arm
 significantly increases the mission completion time due to reduced operator performance. To address this limitation,
-a novel Integrated View interface is proposed. This interface aims to provide operators a more comprehensive understanding of the environment.
+a novel \emph{Integrated View} interface is proposed. This interface aims to provide operators a more comprehensive understanding of the environment.
 By enhancing situational awareness and improving decision-making capabilities, particularly in complex environments, it is aimed to mitigate the performance
 loss for the teleoperation.
 
 \section{Objective}
-The primary objective of this thesis is focused on the development and implementation of an "Integrated View" interface for \ac{AV} teleoperation systems, where all environmental perception data is combined into a single visualization. Through this interface, a novel approach to environmental data visualization is introduced, specifically designed to enhance operator situational awareness during Perception Modification tasks.
+The primary objective of this thesis is focused on the development and implementation of an \emph{Integrated View} interface for \ac{AV} teleoperation systems, where all environmental perception data is combined into a single visualization. Through this interface, a novel approach to environmental data visualization is introduced, specifically designed to enhance operator situational awareness during Perception Modification tasks.
 
-\textbf{Interface Development} A comprehensive "Integrated View" interface is developed that combines 2D camera feeds and 3D perception data into a unified display, where raw sensor data and perception data are integrated to provide operators with an enhanced understanding of the vehicle's environment.
+\textbf{Interface Development} A comprehensive \emph{Integrated View} interface is developed that combines 2D camera feeds and 3D perception data into a unified display, where raw sensor data and perception data are integrated to provide operators with an enhanced understanding of the vehicle's environment.
 
-\textbf{Interface Evaluation} The effectiveness of the developed 'Integrated View' interface is compared against a traditional 'Separate View' interface through a systematic user study, where both interfaces are evaluated under controlled conditions. The evaluation is conducted using the scientific methodology of \ac{SAGAT} to measure situational awareness in teleoperation scenarios.
+In parallel, improvements to the the \emph{Separate View} interface is also developed to provide a baseline for comparison. This interface presents 2D camera feeds and 3D perception data on separate displays, allowing for a direct comparison of the two interface types.
 
-\textbf{Performance Assessment} User acceptance and interface performance are measured through targeted questionnaires and performance metrics, where empirical data is collected to validate the effectiveness of the interface designs. The assessment is structured to provide quantitative and qualitative insights into operator interaction with both interface types.
+\textbf{User Study Development} The effectiveness of the developed \emph{Integrated View} interface is compared against a traditional \emph{Separate View} interface through a systematic user study, where both interfaces are evaluated under controlled conditions. The user study has been prepared and conducted in the scope of this thesis.
 
-\textbf{Cognitive Analysis} Operators' cognitive load and decision-making capabilities are analyzed when interacting with each interface type, where specific attention is paid to mental workload measurements using simplified NASA-TLX methodology. This analysis is conducted to understand how different visualization approaches impact operator performance in Perception Modification tasks.
-
-Through this research, significant contributions are made to the advancement of teleoperation technologies in \ac{AV}, particularly in the domain of Perception Modification. The findings from this study are expected to inform future developments in \ac{HMI} design for remote vehicle operation, where the potential improvements in safety and efficiency of \ac{AV} systems are thoroughly evaluated.
+Through this research, we made significant contributions to the advancement of teleoperation technologies in \ac{AV}, particularly in the domain of Perception Modification. The findings from the prepared study are expected to inform future developments in \ac{HMI} design for remote vehicle operation, where the potential improvements in safety and efficiency of \ac{AV} systems are thoroughly evaluated.
 
 \section{Contribution}
 This thesis makes several critical contributions to the field of teleoperation for \acp{AV}, specifically in the area of Perception Modification:
 
 \textbf{Novel Interface Design:}
-We introduce the "Integrated View" interface, which combines 2D camera feeds and 3D perception data into a unified display. This innovative approach
+We introduce the \emph{Integrated View} interface, which combines 2D camera feeds and 3D perception data into a unified display. This innovative approach
 aims to enhance the operator situational awareness and decision-making capabilities in complex environments.
 
 \textbf{Advancement in 3D Reconstruction:}
-We contribute to the field by implementing and evaluating LiDAR and camera fusion techniques for creating realistic 3D reconstructions of the vehicle's surroundings, addressing technical challenges in real-time data presentation.
+We contribute to the field by implementing and evaluating \ac{LiDAR} and camera fusion techniques for creating realistic 3D reconstructions of the vehicle's surroundings, addressing technical challenges in real-time data presentation.
 
 \textbf{Framework for Future Development:}
 This research establishes a foundation for
@@ -69,36 +68,40 @@ University of Munich \cite{tum_ftm}.
 
 \textbf{Comparative Analysis:}
 We provide a rigorous comparison between the traditional
-"Separate View" interface and our novel "Integrated View" interface. This analysis offers
+\emph{Separate View} interface and our novel \emph{Integrated View} interface. This analysis offers
 insights into the strengths and limitations of each approach in terms of situational
 awareness, cognitive workload, and operator performance.
 
-\textbf{Empirical Evaluation:}
-Through a comprehensive user study utilizing the \ac{SAGAT} \cite{endsley1988sagat}, we offer empirical evidence on the effectiveness of different interface designs for teleoperation tasks. This evaluation provides
+\textbf{Background Work for Empirical Evaluation:}
+Through development of a structure for a future user study utilizing the \ac{SAGAT} \cite{endsley1988sagat}, we offer empirical evidence on the effectiveness of different interface designs for teleoperation tasks. This evaluation provides
 valuable data on user acceptance and interface performance.
 
 \textbf{Best Practice Recommendations:}
 Based on our findings, we provide evidence-based recommendations for the design of teleoperation interfaces that optimize situational awareness and operational efficiency in teleoperation tasks.
 
-\section{Challenges}
+While \acp{HMI} in \acp{AV} span various domains, from passenger experience to public interaction, this thesis specifically focuses on operator interfaces for teleoperation. These interfaces serve as critical tools for trained professionals who remotely monitor and assist \acp{AV}, requiring distinct design considerations from passenger-facing interfaces.
+
+\section{Challenges}\label{section:challenges}
 
 In developing an effective teleoperation interface for \acp{AV}, we encountered several significant challenges that shaped our research approach and design decisions.
 One of the primary obstacles we faced was the constraint imposed by real-world network conditions.
 According to the Opensignal reports \cite{opensignal2020germany}, while LTE coverage in Germany has expanded to cover 85\% of the land as of 2020,
 the minimum throughput can be as low as 3 Mbps, with latencies up to 250 ms. Even though we did our research within the simulation environment,
-we always considered the real-life usage of our methods. Thus, the network constraints required us to optimize our data transmission and presentation methods to ensure
+we consistently considered these real-life constraints in our methods. Thus, the network constraints required us to optimize our data transmission and presentation methods to ensure
 real-time vehicle and operator communication. We had to balance providing comprehensive environmental data and fit within the network requirements of today and tomorrow.
 
-Integrating multiple data streams, particularly the combination of 2D camera feeds and 3D LiDAR data, presented another significant challenge.
+Integrating multiple data streams, particularly the combination of 2D camera feeds and 3D \ac{LiDAR} data, presented another significant challenge.
 This dimension disparity required us to develop novel visualization techniques to show both types of data coherently, allowing operators
 to quickly and accurately interpret the vehicle's environment and its perception of that environment. Our approach to overcoming this challenge is
-discussed in depth in the section \ref{section:integratedviewimplementation}.
+discussed in depth in the Section \ref{section:integratedviewimplementation}.
 
 Creating a realistic simulation environment that accurately represents German roadways proved another hurdle. Most existing simulations - such as open-source CARLA software \cite{Dosovitskiy2017CARLAAO} - are heavily based on US road conditions, which differ significantly from German roads regarding signage, road markings, and traffic rules. Developing a German-based setup required substantial effort in customizing the simulation environment to ensure its applicability to our target demographic and the relevance of our user study.
 
 Designing an interface that provides sufficient information for effective Perception Modification without overwhelming the operator was a constant consideration. This challenge was compassionate, given the need to integrate multiple data streams and interaction methods within a single interface.
 
-Another consideration is the technical difficulty of implementing real-time 3D reconstruction using LiDAR and camera fusion techniques. Achieving computational efficiency and accuracy while maintaining real-time performance requires innovative approaches and careful optimization.
+Another consideration is the technical difficulty of implementing real-time 3D reconstruction using \ac{LiDAR} and camera fusion techniques. Achieving computational efficiency and accuracy while maintaining real-time performance requires innovative approaches and careful optimization.
 
 Lastly, ensuring the interface could effectively handle various environmental conditions and potential perception errors requiring operator intervention was crucial for the system's robustness and reliability. The developed interface must be able to handle different locations, different weather conditions
 inside its \ac{ODD}. This adaptability to multiple scenarios, a key consideration throughout our design process, ensures the system's robustness and reliability in a variety of conditions.
+
+These challenges directly influenced our interface design decisions throughout this thesis. The network constraints guided our optimization strategies for data presentation, while the dimension disparity between 2D and 3D data shaped our visualization approach. The need for German-specific scenarios informed our simulation environment development, ensuring our evaluation would be relevant for our target deployment context. Each challenge represented not just a technical hurdle, but an opportunity to advance the state of teleoperation interface design.
