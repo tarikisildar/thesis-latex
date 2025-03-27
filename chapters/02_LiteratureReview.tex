@@ -75,7 +75,7 @@ drivers in cities like San Francisco, Phoenix, and Austin \cite{evmagazine2024}.
  in perception can propagate through the entire system, leading to incorrect decisions and unsafe driving behavior.
 
 \begin{figure}[h]
-    \includegraphics[scale=0.14]{figures/AVStack.png}
+    \includegraphics[scale=0.135]{figures/AVStack.png}
     \centering
     \caption{\ac{AV} Technology Stack
     from the lecture slides of "Software Engineering For Autonomous Driving" course, TUM, 2024 \cite{tum2024avstack}} %todo: add source from the lecture
@@ -190,8 +190,40 @@ The system ensures that the \ac{AV} can resume its mission safely and efficientl
 
 Several teleoperation concepts have been developed to address different aspects of remote vehicle control, each with its own strengths and limitations. These concepts can be broadly categorized into Remote Driving and Remote Assistance with subcategories. Each approach targets specific challenges in teleoperation, such as latency, \ac{SA}, and operator workload.
 
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/directcont.png}
+        \caption{Direct Control}
+        \label{fig:direct_control}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/sharedcont.png}
+        \caption{Shared Control}
+        \label{fig:shared_control}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/wayguid.png}
+        \caption{Waypoint Guidance}
+        \label{fig:waypoint_guidance}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/percmod.png}
+        \caption{Perception Modification}
+        \label{fig:perception_modification}
+    \end{subfigure}
+    \caption{Different approaches to teleoperation in autonomous vehicles from \cite{Brecht}}
+    \label{fig:teleoperation_concepts}
+\end{figure}
+
 \subsection{Remote Driving}
-Remote Driving is one of the earliest teleoperation concepts,
+Remote Driving (Figure \ref{fig:direct_control}) is one of the earliest teleoperation concepts,
 where a human operator takes full control of the vehicle's
 dynamic driving tasks, including steering, acceleration,
 and braking. This concept has been explored for more than two decades.
@@ -242,7 +274,7 @@ safety. To mitigate these challenges, modern teleoperation systems
 often incorporate additional safety measures or alternative methods
 that reduce reliance on real-time control inputs.
 
-One such alternative is Shared Control, where the vehicle retains
+One such alternative is Shared Control (Figure \ref{fig:shared_control}), where the vehicle retains
 some level of autonomy while the operator provides the control inputs as in the Direct Control.
 In this approach, if an operator's input does not meet
 certain safety criteria—such as proximity to other vehicles—the
@@ -258,7 +290,7 @@ This method is often used in scenarios where the AV encounters an
 edge case that prevents it from continuing its mission autonomously
 but does not require complete human intervention \cite{Brecht}.
 
-In Waypoint Guidance, for example, operators provide waypoints or general
+In Waypoint Guidance (Figure \ref{fig:waypoint_guidance}), for example, operators provide waypoints or general
 directions for the vehicle to follow while leaving detailed path planning
 and execution to the AV's onboard systems \cite{corridor}. This reduces
 operator workload but may lead to stop-and-go behavior if communication
@@ -272,7 +304,7 @@ Collaborative planning improves efficiency but requires robust sensor fusion and
 perception data from the AV.
 \subsection{Perception Modification}
 
-Perception Modification is one of the most promising teleoperation
+Perception Modification (Figure \ref{fig:perception_modification}) is one of the most promising teleoperation
 concepts within Remote Assistance category. Designed to address situations where an \ac{AV}
 encounters perception errors that prevent it
 from continuing its mission. These errors may arise from false
@@ -315,6 +347,8 @@ situations where false-positive detections or indeterminate objects hinder an AV
 However, it may not be suitable for all disengagement scenarios—particularly those
 involving complex trajectory planning failures or situations requiring immediate manual intervention.
 
+\clearpage
+
 \section{Environmental Data Visualization for \acp{AV}}
 Environmental data visualization plays a fundamental role in \ac{AV} systems,
 particularly in teleoperation scenarios where human operators must understand and interpret
@@ -356,18 +390,19 @@ Operators must process and integrate information from multiple sources while mai
 
 \section{Existing Approaches to Visualizing Sensor Data}
 The visualization of sensor data and perception outputs is crucial for developing and monitoring \acp{AV}. Various approaches have been developed by both industry and academia to address the challenges of presenting complex environmental data effectively. This section examines existing visualization solutions, starting with industry standards and progressing to more specialized approaches.
-\subsection{Industry Standards}
-Major \ac{AV} companies have developed sophisticated operator interfaces to support remote monitoring and intervention when autonomous systems face complex or ambiguous scenarios. These interfaces are designed to provide comprehensive environmental awareness by integrating real-time sensor data, perception outputs,
-and vehicle behavior into an accessible format. Below, we highlight examples of operator-focused visualization systems developed by leading companies.
-
-Waymo's Fleet Response Interface \cite{waymo2024fleetresponse}, shown in figure \ref{fig:Waymo} is a prime example of a teleoperation tool designed for remote intervention. This interface provides a detailed 3D visualization of the vehicle’s surroundings, integrating \ac{LiDAR} point clouds, camera feeds, and object detection data in real-time. Remote operators can monitor the vehicle’s perception system and provide guidance when necessary. For instance, operators can review live video feeds and rewind past footage to better understand complex situations such as construction zones or ambiguous road markings. The system allows operators to suggest lane changes or route adjustments while ensuring the Waymo Driver remains in complete vehicle control.
-
 \begin{figure}
     \includegraphics[width=0.8\textwidth]{figures/waymo.png}
     \centering
     \caption{Waymo's Fleet Response Interface \cite{waymo2024fleetresponse}}
     \label{fig:Waymo}
 \end{figure}
+
+\subsection{Industry Standards}
+Major \ac{AV} companies have developed sophisticated operator interfaces to support remote monitoring and intervention when autonomous systems face complex or ambiguous scenarios. These interfaces are designed to provide comprehensive environmental awareness by integrating real-time sensor data, perception outputs,
+and vehicle behavior into an accessible format. Below, we highlight examples of operator-focused visualization systems developed by leading companies.
+
+Waymo's Fleet Response Interface \cite{waymo2024fleetresponse}, shown in figure \ref{fig:Waymo} is a prime example of a teleoperation tool designed for remote intervention. This interface provides a detailed 3D visualization of the vehicle’s surroundings, integrating \ac{LiDAR} point clouds, camera feeds, and object detection data in real-time. Remote operators can monitor the vehicle’s perception system and provide guidance when necessary. For instance, operators can review live video feeds and rewind past footage to better understand complex situations such as construction zones or ambiguous road markings. The system allows operators to suggest lane changes or route adjustments while ensuring the Waymo Driver remains in complete vehicle control.
+
 
 Zoox's TeleGuidance System \cite{zoox2024teleguidance} is another example of an operator interface designed for remote assistance. Like Waymo’s system, Zoox provides a separate view of the camera feed and a 3D environment model of the vehicle’s perception. This system allows the operator to do both waypoint guidance
  \cite{corridor} and also a subset of perception modification \cite{Feiler2021ThePM} by object recategorization.
@@ -457,7 +492,7 @@ to incomplete or misleading visualizations.
 \begin{figure}
     \includegraphics[width=0.8\textwidth]{figures/perceptionMod.png}
     \centering
-    \caption{The interface used in the original Perception Modification paper \cite{feiler2023perception}}
+    \caption{The interface used in the original Perception Modification paper \cite{Feiler2021ThePM}}
     \label{fig:PerceptionMod}
 \end{figure}
 \paragraph{3D Space Representation} This approach involves maintaining the environmental
@@ -474,15 +509,15 @@ realistic 3D reconstructions of the environment. The second approach focuses on 
 to have a more complete 3D representation of the environment.
 
 \subsection{NeRF-based rendering methods}
-\ac{NeRF}, first introduced by Mildenhall et al. \cite{mildenhall2020nerf}, represent scenes as continuous volumetric functions using neural networks. A ac{NeRF} takes a 5D input coordinate (the spatial location $(x,y,z)$ and viewing direction $(\theta,\phi)$) and outputs the volume density and view-dependent emitted radiance at that spatial location. This allows photorealistic novel view synthesis by optimizing the neural network using input images with known camera poses.
+\ac{NeRF}, first introduced by Mildenhall et al. \cite{mildenhall2020nerf}, represent scenes as continuous volumetric functions using neural networks. A \ac{NeRF} takes a 5D input coordinate (the spatial location $(x,y,z)$ and viewing direction $(\theta,\phi)$) and outputs the volume density and view-dependent emitted radiance at that spatial location. This allows photorealistic novel view synthesis by optimizing the neural network using input images with known camera poses.
 
-In the context of autonomous driving, ac{NeRF} have been particularly effective for static perception tasks such as map construction due to their inherent property of multi-view consistency. Multiple works have applied ac{NeRF} to automotive data, focusing initially on static scenes where the environment remains unchanged \cite{snerf2023}. These approaches typically employ anti-aliased positional embeddings to handle scale variations essential for large-scale scenes.
+In the context of autonomous driving, \ac{NeRF} have been particularly effective for static perception tasks such as map construction due to their inherent property of multi-view consistency. Multiple works have applied \ac{NeRF} to automotive data, focusing initially on static scenes where the environment remains unchanged \cite{snerf2023}. These approaches typically employ anti-aliased positional embeddings to handle scale variations essential for large-scale scenes.
 
-However, autonomous driving scenarios inherently involve dynamic objects, presenting significant challenges for traditional ac{NeRF} approaches. Recent works have proposed methods to handle dynamic scenes to address this limitation. NVIDIA's EmerNeRF introduces a self-supervised approach that decomposes scenes into static, dynamic, and flow fields \cite{yang2023emernerf}. This decomposition emerges from self-supervision, enabling the model to learn from general, in-the-wild data sources without requiring ground truth annotations or external models for dynamic object segmentation.
+However, autonomous driving scenarios inherently involve dynamic objects, presenting significant challenges for traditional \ac{NeRF} approaches. Recent works have proposed methods to handle dynamic scenes to address this limitation. NVIDIA's EmerNeRF introduces a self-supervised approach that decomposes scenes into static, dynamic, and flow fields \cite{yang2023emernerf}. This decomposition emerges from self-supervision, enabling the model to learn from general, in-the-wild data sources without requiring ground truth annotations or external models for dynamic object segmentation.
 
 Similarly, Wayve's PRISM-1 significantly advances handling dynamic urban environments \cite{prism2024wayve}. It can capture complex scenes with multiple moving elements, including pedestrians, cyclists, and other vehicles while accounting for dynamic lighting conditions such as blinking traffic and brake lights. The system learns to separate static from dynamic elements in a self-supervised manner and implicitly tracks movements in the scene, matching them with the 3D geometry.
 
-When considering ac{NeRF}-based methods for our Integrated View approach, several factors must be evaluated:
+When considering \ac{NeRF}-based methods for our Integrated View approach, several factors must be evaluated:
 
 \begin{table}[h!]
     \centering
@@ -497,7 +532,7 @@ When considering ac{NeRF}-based methods for our Integrated View approach, severa
     \label{table:advantages_limitations}
 \end{table}
 
-These characteristics make ac{NeRF}-based methods a promising but challenging candidate for real-time teleoperation interfaces. While they offer superior visual quality and spatial consistency, their computational demands and real-time performance limitations must be carefully considered for practical applications. It is important to note that it is a novel approach that has rapidly improved in recent years.
+These characteristics make \ac{NeRF}-based methods a promising but challenging candidate for real-time teleoperation interfaces. While they offer superior visual quality and spatial consistency, their computational demands and real-time performance limitations must be carefully considered for practical applications. It is important to note that it is a novel approach that has rapidly improved in recent years.
 
 \subsection{Depth Completion}
 
@@ -509,7 +544,7 @@ Recent advances in depth completion have explored various learning approaches. S
 
 Self-supervised and unsupervised methods have emerged as promising alternatives that eliminate the dependence on ground truth data. Wong et al. introduced a self-supervised approach that leverages visual inertial odometry to complete depth maps without explicit supervision \cite{wong2020unsupervised}. Recent work by Li et al. explores using 3D perceptual features and multi-view geometry consistency to achieve high-precision depth completion without ground truth data \cite{li2023self}. However, the accuracy remains slightly inferior to supervised methods.
 
-Several factors warrant consideration when considering depth completion for our Integrated View approach. The method provides accurate dense depth information and enables precise 3D scene reconstruction while being computationally more efficient than ac{NeRF}-based methods. Some implementations achieve real-time performance, making them suitable for teleoperation applications. However, the approach faces challenges such as dependence on \ac{LiDAR} sparsity patterns and potential struggles in areas with high occlusion. Additionally, the method requires careful sensor calibration and synchronization to ensure accurate fusion of \ac{LiDAR} and camera data.
+Several factors warrant consideration when considering depth completion for our Integrated View approach. The method provides accurate dense depth information and enables precise 3D scene reconstruction while being computationally more efficient than \ac{NeRF}-based methods. Some implementations achieve real-time performance, making them suitable for teleoperation applications. However, the approach faces challenges such as dependence on \ac{LiDAR} sparsity patterns and potential struggles in areas with high occlusion. Additionally, the method requires careful sensor calibration and synchronization to ensure accurate fusion of \ac{LiDAR} and camera data.
 
 These characteristics make depth completion a promising approach for real-time teleoperation interfaces, mainly when computational efficiency is a priority. Generating dense, accurate depth maps in real time provides a solid foundation for creating comprehensive environmental visualizations for teleoperators.
 

@@ -259,9 +259,16 @@ Supervised Learning  & While supervised learning typically requires extensive gr
 The ability to use CARLA's precise depth camera for generating ground truth data makes this supervised approach particularly attractive. The network's architecture, which decouples neighborhood relationships based on distance and uses attention mechanisms to dynamically adjust affinities, aligns well with our goal of creating accurate depth reconstructions for teleoperation interfaces.
 For our implementation, we made several modifications to adapt the network to our specific requirements. First, we adjusted the network architecture to accommodate our image resolution of 1280x720, compared to the original KITTI resolution. Second, we reimplemented certain operations to ensure compatibility with PyTorch's JIT compilation, enabling seamless deployment in our C++ production environment.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/wshaped.png}
+    \caption{W-Shaped learning assurance from \cite{easa2024}}
+    \label{fig:wshaped_learning}
+\end{figure}
+
 \subsection{W-Shaped Development Cycle}
 The development approach for our depth completion model aligns with the W-shaped development cycle for learning assurance, as proposed by the European Union Aviation Safety Agency (EASA) \cite{easa2024}. This cycle provides a structured framework for developing \ac{AI} based systems.
-Similar to the V-model \cite{vmodel} that is widely used for software development for safety related products, W-Shaped Development Cycle introduce a second development point for the development of the \ac{AI} model.
+Similar to the V-model \cite{vmodel} that is widely used for software development for safety related products, W-Shaped Development Cycle introduce an intermediate verification layer for the \ac{AI} model which creates the "W" shape as shown in the Figure \ref{fig:wshaped_learning}.
 We have adapted our proof-of-concept level project to follow this method, which can be mapped to the key stages of the W-shaped cycle as shown in the Table \ref{table:wshaped_cycle}.
 
 \begin{table}[h!]
@@ -457,8 +464,3 @@ We carefully select which data to transmit from vehicle to interface:
 \end{itemize}
 Instead of transmitting full depth images, we send point cloud data in a compressed format. This approach is more efficient as the sparse point cloud contains significant empty space, and point cloud reconstruction occurs on the operator side. Additionally, only relevant points for the frontal view are transmitted, further reducing bandwidth requirements.
 Through these optimizations, we maintain real-time performance while working within network bandwidth constraints, ensuring effective teleoperation capability.
-
-\newpage
-\thispagestyle{empty}
-\mbox{}
-\newpage
